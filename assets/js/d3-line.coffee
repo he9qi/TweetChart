@@ -3,8 +3,8 @@
 #= require d3.v3.min.js
 
 ############ ADD DATA  
-tags = []
-path         = null
+tags         = []
+tagV         = null
 time_window  = 1000 * 60 * 5
 
 addRanking = (time, ranking) ->
@@ -24,17 +24,20 @@ addRanking = (time, ranking) ->
   
     names = _.map tags, (tag) -> tag.name  
     color.domain d3.keys(names)
+    
+    drawPath()
 
 addData = (data) ->
   time     = new Date(data.timestamp)
   rankings = data.rankings
   _.each rankings, (ranking) ->
     addRanking time, ranking
+  redraw()
     
 
 ################  draw
-margin = { top: 20, right: 80, bottom: 30, left: 50}
-width  = 960 - margin.left - margin.right
+margin = { top: 20, right: 100, bottom: 30, left: 50}
+width  = 1000 - margin.left - margin.right
 height = 500 - margin.top  - margin.bottom
 
 # color
@@ -58,8 +61,21 @@ svg = d3.select("#activity-line").append("svg")
 svg.append("defs").append("clipPath")
     .attr("id", "clip")
   .append("rect")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", width + 100)
+    .attr("height", height + 50)
+
+# draw axis first
+xAxis = d3.svg.axis().scale(x).orient("bottom")
+yAxis = d3.svg.axis().scale(y).orient("left")
+svgXAxis = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")")
+svgXAxis.call d3.svg.axis().scale(x).orient("bottom")
+svgYAxis = svg.append("g").attr("class", "y axis")
+svgYAxis.call(d3.svg.axis().scale(y).orient("left")).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style "text-anchor", "end"
+
+drawPath = () ->
+  tagV = svg.selectAll(".tag").data(tags).enter().append("g").attr("class", "tag")
+  tagV.attr("clip-path", "url(#clip)").append("path").attr("class", "line")
+  tagV.append("text")
 
 # need to recompute domain each time 
 reDomain = () ->
@@ -74,47 +90,34 @@ reDomain = () ->
     d3.max c.values, (v) ->
       v.value
   )]
-
-reDomain()
-
-# draw axis first
-xAxis = d3.svg.axis().scale(x).orient("bottom")
-yAxis = d3.svg.axis().scale(y).orient("left")
-
-svgXAxis = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")")
-svgXAxis.call d3.svg.axis().scale(x).orient("bottom")
-svgYAxis = svg.append("g").attr("class", "y axis")
-svgYAxis.call(d3.svg.axis().scale(y).orient("left")).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style "text-anchor", "end"
-
+  
 # redraw path 
-redrawPath = () ->
-  # if all there are lines already, redraw lines and shift axis
-  if !!path
-    path.attr("d", (d) -> line d.values )
-    svgXAxis.call d3.svg.axis().scale(x).orient("bottom")
-    svgYAxis.call d3.svg.axis().scale(y).orient("left")
-      
-  # otherwise this is the first time drawing the tags
-  else
-    tag = svg.selectAll(".tag").data(tags).enter().append("g").attr("class", "tag")
-    path = tag.attr("clip-path", "url(#clip)").append("path").attr("class", "line").attr("d", (d) ->
-      line d.values
-    ).style "stroke", (d) ->
-      color d.name
-
-# chart init
-initChart = () ->
+redraw = () ->
   reDomain()
-  redrawPath()
+  
+  svgXAxis.call d3.svg.axis().scale(x).orient("bottom")
+  svgYAxis.call d3.svg.axis().scale(y).orient("left")
+  
+  tagV = svg.selectAll(".tag").data(tags)
+  
+  tagV.selectAll("path").attr("d", (d) ->
+    line d.values
+  ).style "stroke", (d) ->
+    color d.name
+    
+  tagV.selectAll("text").attr("transform", (d) ->
+    value = d.values[d.values.length - 1]
+    "translate(" + x(value.time) + "," + y(value.value) + ")"
+  ).attr("x", 3).attr("dy", ".35em")
+    .style("fill", (d) -> color d.name)
+    .text (d) -> d.name
 
 # chart redraw
 updateChart = (data) ->  
-  console.log data
+  # console.log data
   if data
     data = if typeof data is 'string' then JSON.parse(data) else data
     addData data
-    reDomain()
-    redrawPath()
 
 $ ->
   # Home page

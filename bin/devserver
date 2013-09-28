@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# npm run-script devserver
+
+ARGS=""
+if [ -n "$*" ]; then
+  ARGS=$*
+else
+  ARGS="app"
+fi
+
+./node_modules/node-dev/bin/node-dev $ARGS

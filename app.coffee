@@ -28,8 +28,16 @@ app.use express.static(path.join(__dirname, "public"))
 # connect asssets - rails 3.0 like pipline
 app.use require("connect-assets")()
 
-# development only
-app.use express.errorHandler()  if "development" is app.get("env")
+# configurations
+app.configure 'development', ->
+  app.use express.errorHandler({ dumpExceptions: true, showStack: true })
+  
+app.configure 'production', ->
+  app.use express.errorHandler()
+
+app.configure 'test', ->
+  app.set 'port', 3001
+
 
 # routes
 require("./apps/routes") app

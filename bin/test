@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+# DESCRIPTION: Run tests with locally installed Mocha.
+
+MOCHA_ARGS=""
+TESTS="test/*.js test/*.coffee test/apps/*.coffee test/models/*.coffee"
+WATCH_ARGS="--watch --growl "
+
+if [ -n "$-auto" ]; then
+  MOCHA_ARGS=$WATCH_ARGS$TESTS
+elif [ -n "$*" ]; then
+  MOCHA_ARGS=$*
+else
+  MOCHA_ARGS=$TESTS
+fi
+
+./node_modules/.bin/mocha $MOCHA_ARGS
+

@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "./node_modules/.bin/mocha",
+    "watch": "./node_modules/.bin/mocha --growl --watch",
+    "devserver": "./node_modules/node-dev/bin/node-dev app.js"
   },
   "dependencies": {
     "express": "3.4.0",
@@ -11,10 +14,15 @@
     "coffee-script": "~1.6.3",
     "socket.io": "~0.9.16",
     "connect-assets": "~2.5.2",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "node-dev": "~2.0.2",
+    "redis": "~0.8.5",
+    "hiredis": "~0.1.15"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
-    "restler": "~2.0.1"
+    "restler": "~2.0.1",
+    "request": "~2.27.0",
+    "libxmljs": "~0.8.1"
   }
 }

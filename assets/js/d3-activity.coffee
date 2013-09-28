@@ -1,49 +1,13 @@
 #= require jquery-1.9.1.min.js
 #= require underscore-min.js
 #= require d3.v3.min.js
+#= require models/ranking
 
-############ ADD DATA  
-tags         = []
-time_window  = 1000 * 60 * 5
-_timestamp   = null
-
-addRanking = (time, ranking, callback) ->
-  name  = ranking[0]
-  value = ranking[1]
-
-  tag = _.find tags, (tag) ->
-    name is tag.name
-
-  if !!tag
-    tag.values.push { time, value }
-    callback false
-  else
-    values = []
-    values.push { time, value }
-    tags.push { "name":name, "values":values }
-    callback true
-    
-
-addData = (data) ->
-  _timestamp = new Date(data.timestamp)
-  rankings   = data.rankings
-  
-  dirty = false
-  
-  _.each rankings, (ranking) ->
-    addRanking _timestamp, ranking, (_dirty) ->
-      dirty = dirty | _dirty
-      
-  if dirty
-    bindData tags
-  
-  redraw tags
-    
-
-################  draw
-margin = { top: 20, right: 100, bottom: 30, left: 50}
-graph_h = 500
-graph_w = 900
+# constants
+g_interval   = 1000 * 60 * 5
+margin       = { top: 20, right: 100, bottom: 30, left: 50}
+graph_h      = 500
+graph_w      = 900
 transtion_t  = 500
 label_h      = 25
 label_w      = 140
@@ -77,79 +41,83 @@ svg = d3.select("#activity-line").append("svg")
 svg.append("defs").append("clipPath")
     .attr("id", "clip")
   .append("rect")
-    .attr("width", width + 100)
-    .attr("height", height + 50)
+    .attr("width", width + margin.right)
+    .attr("height", height + margin.top)
 
 # draw axis first
-xAxis = d3.svg.axis().scale(x).orient("bottom")
-yAxis = d3.svg.axis().scale(y).orient("left")
 svgXAxis = svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")")
 svgXAxis.call d3.svg.axis().scale(x).orient("bottom")
 svgYAxis = svg.append("g").attr("class", "y axis")
 svgYAxis.call(d3.svg.axis().scale(y).orient("left")).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style "text-anchor", "end"
 
+# activity box
 svgbox = d3.select("#activity-box").append("svg")
     .attr("width", box_w)
     .attr("height", box_h)
   .append("g")
     .attr("transform", "translate(" + 10 + "," + 10 + ")")
 
-# need to recompute domain each time 
-redrawAxis = () ->
-  startTime = _timestamp.getTime() - time_window
-  maxY = d3.max(tags, (c) ->
+
+# need to recompute domain of x and y axis each time 
+redrawAxis = (data, time) ->
+  startTime = time.getTime() - g_interval
+  maxY = d3.max(data, (c) ->
     d3.max c.values, (v) ->
       v.value )
-  x.domain [startTime, _timestamp]
+  x.domain [startTime, time]
   y.domain [0, maxY + maxY*0.2 ]
-  
-redrawLabels = () ->
+
+
+# need to recomputer label position based on the ranking
+redrawLabels = (data) ->
   # box label needs to reorder when ranks change
-  sortedTags = _.sortBy tags, (tag) -> tag.values[tag.values.length-1].value
-  names = _.map sortedTags, (tag) -> tag.name  
+  sortedData = _.sortBy data, (d) -> d.values[d.values.length-1].value
+  names = _.map sortedData, (d) -> d.name  
   boxY.domain(names).range([names.length-1..0])
     
+    
+# bind data whenever there's new data comes in
 bindData = (data) ->
+  
   # set color only when there's a new tag
-  color.domain d3.keys( _.map data, (tag) -> tag.name )
+  color.domain d3.keys( _.map data, (d) -> d.name )
   
-  tagV = svg.selectAll(".tag").data(data).enter().append("g").attr("class", "tag")
-  tagV.attr("clip-path", "url(#clip)").append("path").attr("class", "line")
-  tagV.append("text")
+  # 1. bind all data
+  # 2. add new data
+  # 3. remove old data
+  tagData = svg.selectAll(".tag").data(data, (d) -> d.name)
+  tagData.enter().append("g").attr("class", "tag").attr("clip-path", "url(#clip)").append("path").attr("class", "line")
+  tagData.exit().remove()
   
-  rect = svgbox.selectAll(".label").data(data).enter().append("g").attr("class", "label")
-  rect.append("rect").attr("width", label_w).attr("height", label_h)
-  rect.append("text")
+  labelData = svgbox.selectAll(".label").data(data, (d) -> d.name)
+  labelEnter = labelData.enter().append("g").attr("class", "label")
+  labelEnter.append("rect").attr("width", label_w).attr("height", label_h)
+  labelEnter.append("text")
+  labelData.exit().remove()
   
-# redraw path 
+# redraw line graph and labels 
+# each time frame, the following 3 things moves:
+# 1. axis
+# 2. lines
+# 3. labels position and the count text
 redraw = () ->
   
-  redrawLabels()
-  redrawAxis()
-  
+  # set new axis domain
   svgXAxis.call d3.svg.axis().scale(x).orient("bottom")
   svgYAxis.call d3.svg.axis().scale(y).orient("left")
   
-  tagV = svg.selectAll(".tag")
-  
-  tagV.selectAll("path").transition().duration(transtion_t).attr("d", (d) ->
+  # move lines
+  svg.selectAll(".tag").selectAll("path").transition().duration(transtion_t).attr("d", (d) ->
     line d.values
   ).style "stroke", (d) ->
     color d.name
     
-  # tagV.selectAll("text").transition().duration(200).attr("transform", (d) ->
-  #   value = d.values[d.values.length - 1]
-  #   "translate(" + x(value.time) + "," + y(value.value) + ")"
-  # ).attr("x", 3).attr("dy", ".35em")
-  #   .style("fill", (d) -> color d.name)
-  #   .text (d) -> d.name
-  
-  svgbox.selectAll(".label").transition().duration(transtion_t).attr("transform", (d) ->
+  # move labels and set new count on text
+  svgbox.selectAll(".label").transition().duration(transtion_t).attr "transform", (d) ->
     "translate(" + 0 + "," + boxY(d.name)*label_h + ")"
-  )
-  
-  svgbox.selectAll("rect").transition().duration(transtion_t).style("fill", (d) -> color d.name)
-  svgbox.selectAll("text").attr("x", 3).attr("y", 20).style("fill", (d) -> "black").text (d) -> d.name + " [" + d.values[d.values.length-1].value + "]"
+  svgbox.selectAll("rect").transition().duration(transtion_t).style("fill", (d) -> color d.name)  
+  svgbox.selectAll("text").attr("x", 3).attr("y", 20).style("fill", (d) -> "black").text (d) -> 
+      d.name + " [" + d.values[d.values.length-1].value + "]"
 
 $ ->
   # Home page
@@ -161,9 +129,14 @@ $ ->
     socket.on "rankings:post", (data) ->
       return unless data
       data = if typeof data is 'string' then JSON.parse(data) else data
-      addData data
 
-    setTimeout refresh, time_window * 60
+      window.app.Ranking.addData data, (ranking) ->
+        bindData ranking.tags if ranking.dirty
+        redrawLabels ranking.tags
+        redrawAxis ranking.tags, ranking.timestamp
+        redraw()
+        
+    setTimeout refresh, g_interval * 60
 
     # DEBUG
     window.socket = socket

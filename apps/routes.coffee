@@ -7,7 +7,7 @@ routes = (app) ->
     next()
   
   app.get '/', (req, res) ->
-    res.render 'index', { title: 'Home Page' } 
+    res.render 'index', { title: 'Tweet Trends' } 
     
   app.post '/rankings', (req, res) ->  
     if socketIO = app.settings.socketIO

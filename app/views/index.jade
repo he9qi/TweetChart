@@ -1,11 +1,16 @@
-extends layout
+extends layouts/application
 
 block content
-  h1= title
   
-  .row
-    #activity-line.span10
-    #activity-box.span2
-  
-  script(src='/socket.io/socket.io.js')
-  != js('d3-activity')
+  div.container
+    div(class="row-fluid row-fluid-70 search-form animated fadeInDown")
+      form(class="form-bloat form-stretch" action="/" method="post")
+        div(class="input-append")
+          input(type="text" placeholder="keyword" class="placeholder")
+          button.btn(type="button") Search!
+      p.muted Enter keyword to search for tweet trends
+      p
+        i.icon-twitter.icon-2x
+        i.icon-facebook.icon-2x
+        i.icon-weibo.icon-2x
+        i.icon-renren.icon-2x

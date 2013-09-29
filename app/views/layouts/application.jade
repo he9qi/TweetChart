@@ -1,0 +1,36 @@
+doctype 5
+html
+  head
+    title= title
+    meta(content='initial-scale = 1, user-scalable = no', name='viewport')
+    
+    // Bootstrap
+    != css('vendor/bootstrap.min')
+    != css('vendor/font-awesome.min')
+    != css('vendor/animate.min')
+    != css('style')
+    
+    script(src='/application.js', type='text/javascript', charset='utf-8')
+    != js('application')
+    
+  body
+  
+    div(class="navbar navbar-inverse animated fadeIn")
+      div.navbar-inner
+        div.container
+          a.btn.btn-navbar("data-goggle"="collapse", "data-target"=".nav-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href="/")
+            i.icon-h-sign 
+            span Heyook Data Analysis
+          div.nav-collapse.collapse
+            ul.nav.pull-right
+              li
+                a(href="/") Trends
+              li
+                a(href="/rankings") Rankings
+                
+    block content
+    

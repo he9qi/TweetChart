@@ -1,15 +1,13 @@
-#= require jquery-1.9.1.min.js
-#= require underscore-min.js
-#= require d3.v3.min.js
-
+_       = require 'underscore'
 Ranking = require 'ranking'
-g_ranking = new Ranking
+  
+g_ranking    = new Ranking
 
 # constants
 g_interval   = 1000 * 60 * 5
-margin       = { top: 20, right: 100, bottom: 30, left: 50}
-graph_h      = 500
-graph_w      = 900
+margin       = { top: 20, right: 80, bottom: 30, left: 50}
+graph_h      = 460
+graph_w      = 880
 transtion_t  = 500
 label_h      = 25
 label_w      = 140
@@ -57,7 +55,7 @@ svgbox = d3.select("#activity-box").append("svg")
     .attr("width", box_w)
     .attr("height", box_h)
   .append("g")
-    .attr("transform", "translate(" + 10 + "," + 10 + ")")
+    # .attr("transform", "translate(" + 0 + "," + 0 + ")")
 
 
 # need to recompute domain of x and y axis each time 
@@ -93,7 +91,7 @@ bindData = (data) ->
   
   labelData = svgbox.selectAll(".label").data(data, (d) -> d.name)
   labelEnter = labelData.enter().append("g").attr("class", "label")
-  labelEnter.append("rect").attr("width", label_w).attr("height", label_h)
+  labelEnter.append("rect").attr("width", label_w).attr("height", label_h).attr("class", "legend-box")
   labelEnter.append("text")
   labelData.exit().remove()
   
@@ -123,9 +121,9 @@ redraw = () ->
 
 $ ->
   # Home page
-  if window.location.pathname is '/'
+  if window.location.pathname is '/rankings'
     refresh = ->
-      window.location = '/'
+      window.location = '/rankings'
 
     socket = io.connect("/")
     socket.on "rankings:post", (data) ->

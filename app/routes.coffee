@@ -9,6 +9,9 @@ routes = (app) ->
   app.get '/', (req, res) ->
     res.render 'index', { title: 'Tweet Trends' } 
     
+  app.get '/rankings', (req, res) ->
+    res.render 'rankings/index', { title: "Tweets Ranking" }
+    
   app.post '/rankings', (req, res) ->  
     if socketIO = app.settings.socketIO
       socketIO.sockets.emit "rankings:post", req.body

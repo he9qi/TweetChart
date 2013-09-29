@@ -1,0 +1,14 @@
+extends ../layouts/application
+
+block content
+  
+  .container
+    h3.title
+      i.icon-bar-chart.icon-2x
+      = title
+    .row-fluid
+      #activity-line.span10
+      #activity-box.span2
+  
+  script(src='/socket.io/socket.io.js')
+  != js('d3.ranking')

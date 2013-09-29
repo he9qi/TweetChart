@@ -1,8 +1,9 @@
 _     = require 'underscore'
 
 class Ranking
-  constructor: () ->
+  constructor: (_maxTagsCount) ->
     @tags = []
+    @maxTagsCount = if _maxTagsCount is undefined then 500 else _maxTagsCount
     
   addRanking: (time, ranking, tags, callback) ->
     name  = ranking[0]
@@ -13,6 +14,7 @@ class Ranking
 
     if !!tag
       tag.values.push { time, value }
+      tag.values.shift() if tag.values.length > @maxTagsCount
       callback false
     else
       values = []

@@ -5,10 +5,10 @@
 body {
   font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
   i[class^="icon-"], span[class^="icon-"] { margin-right: 10px; }
+  
   .navbar-inverse{
-    .navbar-inner{
       background-color: #FFFFFF;
-      border-color: transparent; } }
+      border-color: transparent; }
       
   .container{
     width: 1000px;
@@ -19,13 +19,27 @@ body {
         color: #ffffff;
         &:hover{
           background: #1885ca; } }
-          
       margin-bottom: 4em;
-      form {
-        -webkit-box-shadow: 0 1px 20px #cccccc;
-        -moz-box-shadow: 0 1px 20px #cccccc;
-        box-shadow: 0 1px 20px #cccccc;
-        margin-bottom: 0; }
-      .muted {
-        font-size: 90%;
-        margin: -5px 0 0 0; } } } }
+      
+      /* form */
+      .form-bloat{
+        input, button {
+          height: 80px;
+          line-height: 80px; }
+        input {
+          .box-shadow(0 0 5px, 30%);
+          font-size: 18px;
+          font-style: italic; }
+        button {
+          padding-bottom: 0;
+          padding-top: 0;
+          font-size: 24px; } } 
+          
+      .form-stretch .form-group{
+        padding-right: 0;
+        padding-left: 0;
+        input, button, .btn{
+          .box-sizing }
+        button, .btn{
+          margin-left: 1px;
+          margin-right: 0; } } } } }

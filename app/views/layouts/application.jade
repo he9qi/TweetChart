@@ -6,6 +6,7 @@ html
     
     // Bootstrap
     != css('vendor/bootstrap.min')
+    != css('vendor/bootstrap-theme.min')
     != css('vendor/font-awesome.min')
     != css('vendor/animate.min')
     != css('style')
@@ -16,21 +17,21 @@ html
   body
   
     div(class="navbar navbar-inverse animated fadeIn")
-      div.navbar-inner
-        div.container
-          a.btn.btn-navbar("data-goggle"="collapse", "data-target"=".nav-collapse")
+      .container
+        .navbar-header
+          button.navbar-toggle(type="button" "data-goggle"="collapse", "data-target"=".navbar-collapse")
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.brand(href="/")
-            i.icon-h-sign 
+          a.navbar-brand(href="/")
+            i.icon-h-sign
             span Heyook Data Analysis
-          div.nav-collapse.collapse
-            ul.nav.pull-right
-              li
-                a(href="/") Trends
-              li
-                a(href="/rankings") Rankings
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav.pull-right
+            li
+              a(href="/") Trends
+            li
+              a(href="/rankings") Rankings
                 
     block content
     

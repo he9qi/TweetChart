@@ -6,9 +6,11 @@ block content
     h3.title
       i.icon-bar-chart.icon-2x
       = title
-    .row-fluid
-      #activity-line.span10
-      #activity-box.span2
+    .row
+      #activity-line.col-md-10
+      #activity-box.col-md-2
+      
+  #linetip.linetip
   
   script(src='/socket.io/socket.io.js')
   != js('d3.ranking')

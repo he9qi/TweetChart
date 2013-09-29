@@ -87,7 +87,21 @@ bindData = (data) ->
   # 3. remove old data
   tagData = svg.selectAll(".tag").data(data, (d) -> d.name)
   tagData.enter().append("g").attr("class", "tag").attr("clip-path", "url(#clip)").append("path").attr("class", "line")
+    .attr("title", (d) -> d.name)
   tagData.exit().remove()
+  
+  # show tips for the data tags
+  tagData.on "mouseover", ->
+    data = @__data__
+    mouse_x = d3.mouse(this)[0]
+    mouse_y = d3.mouse(this)[1]
+    $("#linetip").attr(style: "display: block; background: " + color(data.name) + "; top: " + (mouse_y + 130) + "px; left: " + (mouse_x + 200) + "px;").text(data.name)
+
+  tagData.on "mouseout", ->
+    data = @__data__
+    mouse_x = d3.mouse(this)[0]
+    mouse_y = d3.mouse(this)[1]
+    $("#linetip").attr style: "display: none; top: " + (mouse_y + 30) + "px; left: " + mouse_x + "px;"
   
   labelData = svgbox.selectAll(".label").data(data, (d) -> d.name)
   labelEnter = labelData.enter().append("g").attr("class", "label")
@@ -109,8 +123,9 @@ redraw = () ->
   # move lines
   svg.selectAll(".tag").selectAll("path").transition().duration(transtion_t).attr("d", (d) ->
     line d.values
-  ).style "stroke", (d) ->
+  ).style("stroke", (d) ->
     color d.name
+  )
     
   # move labels and set new count on text
   svgbox.selectAll(".label").transition().duration(transtion_t).attr "transform", (d) ->
@@ -120,6 +135,7 @@ redraw = () ->
       d.name + " [" + d.values[d.values.length-1].value + "]"
 
 $ ->
+  
   # Home page
   if window.location.pathname is '/rankings'
     refresh = ->

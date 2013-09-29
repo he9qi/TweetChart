@@ -40,7 +40,23 @@ describe 'Ranking', ->
       it "sets tags", ->
         assert.equal data.tags.length, 2
         assert.equal data.tags[0].name, "#word2"
+        assert.equal data.tags[0].values.length, 2
         assert.equal data.tags[1].name, "#word3"
     
+    describe "adds too much", ->
+      
+      before () ->
+        ranking = new Ranking 1
+        ranking.addData data1, (_data) ->
+          data = _data
+        ranking.addData data2, (_data) ->
+          data = _data
     
+      it "sets the max tags count", ->
+        assert.equal ranking.maxTagsCount, 1
+   
+      it "sets only the limited size of a tag", ->
+        assert.equal data.tags.length, 2
+        assert.equal data.tags[0].name, "#word2"
+        assert.equal data.tags[0].values.length, 1
 

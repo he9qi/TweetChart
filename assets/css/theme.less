@@ -1,88 +1,21 @@
-
-/* row fluid */
-.row-fluid-90,
-.row-fluid-80,
-.row-fluid-70,
-.row-fluid-60,
-.row-fluid-50,
-.row-fluid-40,
-.row-fluid-30,
-.row-fluid-20 {
-  margin-right: auto;
-  margin-left: auto;
-}
-.row-fluid-90 {
-  width: 90%;
-}
-.row-fluid-80 {
-  width: 80%;
-}
-.row-fluid-70 {
-  width: 70%;
-}
-.row-fluid-60 {
-  width: 60%;
-}
-.row-fluid-50 {
-  width: 50%;
-}
-.row-fluid-40 {
-  width: 40%;
-}
-.row-fluid-30 {
-  width: 30%;
-}
-.row-fluid-20 {
-  width: 20%;
+.border-radius (@radius: 5px) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
 }
 
-/* form */
-.form-bloat input,
-.form-bloat button {
-  height: 80px;
-  line-height: 80px;
-  padding: 0 2%;
+.box-sizing (@box-type: border-box) {
+  -webkit-box-sizing: @box-type;
+  -moz-box-sizing: @box-type;
+  box-sizing: @box-type;
 }
-.form-bloat input {
-  font-size: 18px;
-  font-style: italic;
+
+.box-shadow(@style, @c) when (iscolor(@c)) {
+  box-shadow:         @style @c;
+  -webkit-box-shadow: @style @c;
+  -moz-box-shadow:    @style @c;
 }
-.form-bloat button {
-  padding-bottom: 0;
-  padding-top: 0;
-  font-size: 24px;
-}
-.form-stretch .input-append,
-.form-stretch .input-prepend {
-  display: block;
-}
-.form-stretch .input-append input,
-.form-stretch .input-prepend input {
-  width: 75%;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
 
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
-.form-stretch .input-append button,
-.form-stretch .input-prepend button,
-.form-stretch .input-append .btn,
-.form-stretch .input-prepend .btn {
-  width: 25%;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  margin-left: 1px;
-  margin-right: 0;
+.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+  .box-shadow(@style, rgba(0, 0, 0, @alpha));
 }

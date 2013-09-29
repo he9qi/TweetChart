@@ -2,15 +2,19 @@ extends layouts/application
 
 block content
   
-  div.container
-    div(class="row-fluid row-fluid-70 search-form animated fadeInDown")
-      form(class="form-bloat form-stretch" action="/" method="post")
-        div(class="input-append")
-          input(type="text" placeholder="keyword" class="placeholder")
+  .container
+    div(class="row search-form text-center animated fadeInDown")
+      form(class="form-bloat form-stretch form-inline" action="/" method="post" role="form")
+        .col-md-2
+        .form-group.col-md-6.text-right
+          input(type="text" placeholder="keyword" class="form-control placeholder")
+        .form-group.col-md-2.text-left
           button.btn(type="button") Search!
-      p.muted Enter keyword to search for tweet trends
-      p
-        i.icon-twitter.icon-2x
-        i.icon-facebook.icon-2x
-        i.icon-weibo.icon-2x
-        i.icon-renren.icon-2x
+        .col-md-2
+      br
+    p.muted.text-center Enter keyword to search for tweet trends
+    p.text-center
+      i.icon-twitter.icon-2x
+      i.icon-facebook.icon-2x
+      i.icon-weibo.icon-2x
+      i.icon-renren.icon-2x

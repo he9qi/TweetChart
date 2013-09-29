@@ -1,7 +1,7 @@
 require '../_helper'
 assert   = require 'assert'
 redis    = require('redis').createClient()
-Trend    = require '../../models/trend'
+Trend    = require '../../app/models/trend'
 
 describe 'Trend', ->
   

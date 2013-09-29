@@ -1,7 +1,9 @@
 #= require jquery-1.9.1.min.js
 #= require underscore-min.js
 #= require d3.v3.min.js
-#= require models/ranking
+
+Ranking = require 'ranking'
+g_ranking = new Ranking
 
 # constants
 g_interval   = 1000 * 60 * 5
@@ -130,7 +132,7 @@ $ ->
       return unless data
       data = if typeof data is 'string' then JSON.parse(data) else data
 
-      window.app.Ranking.addData data, (ranking) ->
+      g_ranking.addData data, (ranking) ->
         bindData ranking.tags if ranking.dirty
         redrawLabels ranking.tags
         redrawAxis ranking.tags, ranking.timestamp

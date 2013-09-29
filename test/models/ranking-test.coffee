@@ -1,7 +1,6 @@
 require '../_helper'
 assert   = require 'assert'
-redis    = require('redis').createClient()
-Ranking  = require '../../models/ranking'
+Ranking  = require '../../app/models/ranking'
 
 describe 'Ranking', ->
   
@@ -9,20 +8,39 @@ describe 'Ranking', ->
   #   "rankings"  : [ ["#word1", 13], ["word2", 14] ], 
   #   "timestamp" : 424255223 
   # }
-  rankingJson = { "timestamp" : 2000, "rankings" : [ ["#word1", 13], ["word2", 14] ] }
+  data1 = { "timestamp" : 2000, "rankings" : [ ["#word1", 13], ["#word2", 14] ] }
+  data2 = { "timestamp" : 2001, "rankings" : [ ["#word3", 13], ["#word2", 15] ] }
   
-  describe "create", ->
-    ranking = null
-    before (done) ->
-      ranking = new Ranking rankingJson
-      done()
-    it "sets timestamp", ->
-      assert.equal ranking.timestamp, 2000
-    it "sets rankings", ->
-      assert.equal ranking.rankings.length, 2
-      assert.equal ranking.rankings[0][0], "#word1"
-      assert.equal ranking.rankings[0][1], 13
+  describe "adds data", ->
+    
+    data    = null
+    ranking = new Ranking   
+    before () ->
+      ranking.addData data1, (_data) ->
+        data = _data
+    
+    describe "once", ->
+        
+      it "sets timestamp", ->
+        assert.equal data.timestamp.getTime(), 2000  
       
+      it "sets tags", ->
+        assert.equal data.tags.length, 2
+        assert.equal data.tags[0].name, "#word1"
+      
+    describe "twice", ->      
+
+      before () ->
+        ranking.addData data2, (_data) ->
+          data = _data
+      
+      it "sets timestamp", ->
+        assert.equal data.timestamp.getTime(), 2001
+
+      it "sets tags", ->
+        assert.equal data.tags.length, 2
+        assert.equal data.tags[0].name, "#word2"
+        assert.equal data.tags[1].name, "#word3"
     
     
 

@@ -3,7 +3,7 @@
 # DESCRIPTION: Run tests with locally installed Mocha.
 
 MOCHA_ARGS=""
-TESTS="test/*.js test/*.coffee test/apps/*.coffee test/models/*.coffee"
+TESTS="test/*.js test/*.coffee test/models/*.coffee"
 WATCH_ARGS="--watch --growl "
 
 if [ -n "$-auto" ]; then

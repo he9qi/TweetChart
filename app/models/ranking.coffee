@@ -1,3 +1,5 @@
+_     = require 'underscore'
+
 class Ranking
   constructor: () ->
     @tags = []
@@ -35,5 +37,4 @@ class Ranking
     ranking = { "tags":@tags, "timestamp":timestamp, "dirty":dirty }
     callback(ranking)
 
-@app = window.app ? {}
-@app.Ranking = new Ranking
+module.exports = Ranking

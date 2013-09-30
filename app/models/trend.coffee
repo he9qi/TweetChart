@@ -12,12 +12,22 @@ class Trend
     @[key] = value for key,value of attributes
   
     
-  # name is the unique key
-  save: (callback) ->    
-    redis.hset Trend.key(), @name, JSON.stringify(@), (err, responseCode) =>
+  save: (callback) ->  
+    @generateId()
+    redis.hset Trend.key(), @id, JSON.stringify(@), (err, responseCode) =>
       callback null, @
-  
-    
+      
+  destroy: (callback) ->
+    redis.hdel Trend.key(), @id, (err) ->
+      callback err if callback
+      
+  generateId: ->
+    if not @id and @name
+      @id = Trend.idByName @name
+          
+  @idByName: (name) ->
+    name.replace /\s/g, '-'        
+          
   # table key name  
   @key: ->
     "Trend:#{process.env.NODE_ENV}"
@@ -53,8 +63,9 @@ class Trend
   @addOrUpdate: (time, ranking, callback) ->
     name  = ranking[0]
     value = ranking[1]
+    id    = Trend.idByName name
       
-    Trend.getByName name, (err, trend) ->
+    Trend.getById id, (err, trend) ->
       if err isnt null
         trend = new Trend { "name" : name, "values" : [{ time, value }] }
         trend.save (err, json) ->
@@ -66,11 +77,11 @@ class Trend
           
   # get trend by name, if trend is not found, send callback with error
   # else send with trend object 
-  @getByName: (name, callback) ->
-    redis.hget Trend.key(), name, (err, json) ->
+  @getById: (id, callback) ->
+    redis.hget Trend.key(), id, (err, json) ->
       # callback err, json
       if json is null
-        callback new Error("Trend '#{name}' could not be found.")
+        callback new Error("Trend '#{id}' could not be found.")
       else
         trend = new Trend JSON.parse(json)
         callback null, trend

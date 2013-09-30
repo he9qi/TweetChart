@@ -5,15 +5,17 @@ Trend    = require '../../app/models/trend'
 
 describe 'Trend', ->
   
-  trendJson = { "name" : "word", "values" : [{ "time":2000, "value":123 }] }
+  trendJson = { "name" : "word lenka", "values" : [{ "time":2000, "value":123 }] }
   
   describe "create", ->
     trend = null
     before (done) ->
       trend = new Trend trendJson
       done()
+    it "doesn't id", ->
+      assert.equal trend.id, null
     it "sets name", ->
-      assert.equal trend.name, 'word'
+      assert.equal trend.name, 'word lenka'
     it "sets values", ->
       assert.equal trend.values.length, 1
       assert.equal trend.values[0].time, 2000
@@ -21,21 +23,39 @@ describe 'Trend', ->
     
     
   describe 'persistence', ->
-  
+    
+    trend = null
+      
     afterEach ->
       redis.del Trend.key()
   
     it "builds a key", ->
       assert.equal Trend.key(), 'Trend:test'
+      
     describe "save", ->
-      trend = null
+      t = null
       before (done) ->
         trend = new Trend trendJson
-        trend.save ->
+        trend.save (err, _trend) ->
+          t = _trend
           done()
       it "returns a Trend object", ->
-        assert.instanceOf trend, Trend
+        assert.instanceOf t, Trend
+      it "sets id", ->
+        assert.equal t.id, "word-lenka"
       
+  describe "destroy", ->
+    before (done) ->
+      trend = new Trend trendJson
+      trend.save ->
+        done()
+
+    it "destroys", (done)->
+       Trend.getById 'word-lenka', (err, trend) ->
+          trend.destroy (err) ->
+            Trend.getById 'word-lenka', (err) ->
+              assert.equal err.message, "Trend 'word-lenka' could not be found."
+              done()
   
   describe 'add data', ->
     
@@ -46,7 +66,7 @@ describe 'Trend', ->
       Trend.addData data1, () ->
         done()
       
-    data1  = {"rankings":[["#ICEWEASELS",167],["#ACE",146]],"timestamp":1380206300509}
+    data1  = {"rankings":[["#ICEWEASELS",167],["#ACE K",146]],"timestamp":1380206300509}
     data2  = {"rankings":[["#ICEWEASELS",169],["#BSE",149]],"timestamp":1380206300509}
     
     describe 'once', ->
@@ -56,6 +76,8 @@ describe 'Trend', ->
           trends = _trends
           done()
           assert.equal trends.length, 2
+          trend = new Trend trends[0]
+          assert.equal trend.id, "#ACE-K"
           
     describe 'twice', ->
       
@@ -70,12 +92,11 @@ describe 'Trend', ->
             done()
             assert.equal trends.length, 3
       
-      describe "data for each name", ->      
+      describe "multiple data for each name", ->      
         it "set name and values", (done) ->
-          Trend.getByName "#ICEWEASELS", (err, _trend) ->
+          Trend.getById "#ICEWEASELS", (err, _trend) ->
             trend = _trend
             done()
             assert.equal trend.name, "#ICEWEASELS"  
             assert.equal trend.values.length, 2
-
-      
+          

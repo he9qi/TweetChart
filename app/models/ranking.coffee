@@ -27,12 +27,16 @@ class Ranking
     rankings  = data.rankings
 
     dirty = false
+    
+    # sort before pushing
+    _.each @tags, (t) ->
+      t.values = _.sortBy t.values, (v) -> v.time.getTime()
 
     _.each rankings, (ranking) =>
       @addRanking timestamp, ranking, @tags, (_dirty) ->
         dirty = dirty | _dirty
 
-    # remove data that is not included on current time
+    # remove data whose name that is not included on current time
     names = _.map rankings, (ranking) -> ranking[0]
     @tags  = _.filter @tags, (d) -> d.name in names
 

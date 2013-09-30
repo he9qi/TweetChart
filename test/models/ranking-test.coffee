@@ -48,9 +48,8 @@ describe 'Ranking', ->
       before () ->
         ranking = new Ranking 1
         ranking.addData data1, (_data) ->
-          data = _data
-        ranking.addData data2, (_data) ->
-          data = _data
+          ranking.addData data2, (_data) ->
+            data = _data
     
       it "sets the max tags count", ->
         assert.equal ranking.maxTagsCount, 1
@@ -59,4 +58,23 @@ describe 'Ranking', ->
         assert.equal data.tags.length, 2
         assert.equal data.tags[0].name, "#word2"
         assert.equal data.tags[0].values.length, 1
+        assert.equal data.tags[0].values[0].time.getTime(), 2001 # coz only the last timestamp is saved
 
+  describe "sort data", ->
+    
+    data = null
+    ranking = null
+    
+    before () ->
+      ranking = new Ranking
+      ranking.addData data1, (_data) ->
+        ranking.addData data2, (_data) ->
+          data = _data
+    
+    it "set the length", ->
+      assert.equal data.tags.length, 2
+      
+    it "set the tags", ->
+      assert.equal data.tags[0].name, "#word2"
+      assert.equal data.tags[0].values[0].time.getTime(), 2000
+    

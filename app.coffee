@@ -14,10 +14,6 @@ app = express()
 server = http.createServer(app)
 require("./config/socket-io") app, server
 
-stitch = require("stitch")
-packages = stitch.createPackage(paths: [__dirname + "/app/models", __dirname + "/assets/lib"])
-app.get "/application.js", packages.createServer()
-
 # all environments
 app.set "port", process.env.PORT or 3000
 app.set "views", __dirname + "/app/views"
@@ -26,7 +22,6 @@ app.use express.favicon()
 app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.methodOverride()
-app.use app.router
 app.use express.static(path.join(__dirname, "public"))
 
 # connect asssets - rails 3.0 like pipline
@@ -42,13 +37,18 @@ app.configure 'production', ->
 app.configure 'test', ->
   app.set 'port', 3001
 
-
-# routes
-require("./app/routes") app
+# share server models to client
+stitch = require("stitch")
+packages = stitch.createPackage(paths: [__dirname + "/app/models", __dirname + "/assets/lib"])
+app.get "/application.js", packages.createServer()
 
 # server
 server.listen app.get("port"), ->
   console.log "Express server listening on port " + app.get("port")
+
+# routes
+require("./app/routes") app
+app.use app.router
   
 # mock data
 mock_rankings_request = () ->

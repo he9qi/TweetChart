@@ -41,6 +41,7 @@ end
 
 def post_rankings
   begin
+    puts random_data.to_json
     Ranking.post('/', 
         :body => random_data.to_json,
         :headers => { 'Content-Type' => 'application/json' } )
@@ -52,6 +53,6 @@ end
 
 while true
   post_rankings
-  sleep 2
+  sleep 3
 end
   

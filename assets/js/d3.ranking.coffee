@@ -8,7 +8,7 @@ g_interval   = 1000 * 60 * 5
 margin       = { top: 20, right: 80, bottom: 30, left: 50}
 graph_h      = 460
 graph_w      = 880
-transtion_t  = 500
+transtion_t  = 200
 label_h      = 25
 label_w      = 140
 box_w        = 300
@@ -95,7 +95,7 @@ bindData = (data) ->
     data = @__data__
     mouse_x = d3.mouse(this)[0]
     mouse_y = d3.mouse(this)[1]
-    $("#linetip").attr(style: "display: block; background: " + color(data.name) + "; top: " + (mouse_y + 130) + "px; left: " + (mouse_x + 200) + "px;").text(data.name)
+    $("#linetip").attr(style: "display: block; background: " + color(data.name) + "; top: " + (mouse_y + 30) + "px; left: " + (mouse_x + 0) + "px;").text(data.name)
 
   tagData.on "mouseout", ->
     data = @__data__
@@ -134,23 +134,43 @@ redraw = () ->
   svgbox.selectAll("text").attr("x", 3).attr("y", 20).style("fill", (d) -> "black").text (d) -> 
       d.name + " [" + d.values[d.values.length-1].value + "]"
 
+addData = (data) ->
+  
+
 $ ->
   
   # Home page
   if window.location.pathname is '/rankings'
     refresh = ->
       window.location = '/rankings'
-
+    
     socket = io.connect("/")
-    socket.on "rankings:post", (data) ->
-      return unless data
-      data = if typeof data is 'string' then JSON.parse(data) else data
-
-      g_ranking.addData data, (ranking) ->
-        bindData ranking.tags if ranking.dirty
-        redrawLabels ranking.tags
-        redrawAxis ranking.tags, ranking.timestamp
+      
+    r_count = 100
+    r_time  = new Date()
+    r_intv  = 300 # in seconds
+    
+    $.get "/rankstreams?count=#{r_count}&timestamp=#{r_time.getTime()}&interval=#{r_intv}", (data) ->
+      r_tags = []
+      _.each data, (d) ->
+        g_ranking.addData d, (ranking) ->
+          r_tags = ranking.tags
+      
+      if r_tags.length > 0
+        bindData r_tags
+        redrawLabels r_tags
+        redrawAxis r_tags, r_time
         redraw()
+            
+      socket.on "rankings:post", (data) ->
+        return unless data
+        data = if typeof data is 'string' then JSON.parse(data) else data
+          
+        g_ranking.addData data, (ranking) ->
+          bindData ranking.tags if ranking.dirty
+          redrawLabels ranking.tags
+          redrawAxis ranking.tags, ranking.timestamp
+          redraw()
         
     setTimeout refresh, g_interval * 60
 

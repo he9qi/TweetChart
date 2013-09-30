@@ -22,14 +22,6 @@ Module dependencies.
 
   require("./config/socket-io")(app, server);
 
-  stitch = require("stitch");
-
-  packages = stitch.createPackage({
-    paths: [__dirname + "/app/models", __dirname + "/assets/lib"]
-  });
-
-  app.get("/application.js", packages.createServer());
-
   app.set("port", process.env.PORT || 3000);
 
   app.set("views", __dirname + "/app/views");
@@ -43,8 +35,6 @@ Module dependencies.
   app.use(express.bodyParser());
 
   app.use(express.methodOverride());
-
-  app.use(app.router);
 
   app.use(express["static"](path.join(__dirname, "public")));
 
@@ -65,11 +55,21 @@ Module dependencies.
     return app.set('port', 3001);
   });
 
-  require("./app/routes")(app);
+  stitch = require("stitch");
+
+  packages = stitch.createPackage({
+    paths: [__dirname + "/app/models", __dirname + "/assets/lib"]
+  });
+
+  app.get("/application.js", packages.createServer());
 
   server.listen(app.get("port"), function() {
     return console.log("Express server listening on port " + app.get("port"));
   });
+
+  require("./app/routes")(app);
+
+  app.use(app.router);
 
   mock_rankings_request = function() {
     return mock.post_rankings(app, function(error, data) {

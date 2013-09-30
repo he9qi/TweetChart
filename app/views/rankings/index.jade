@@ -2,7 +2,7 @@ extends ../layouts/application
 
 block content
   
-  .container
+  .container.ranking-chart
     h3.title
       i.icon-bar-chart.icon-2x
       = title
@@ -10,7 +10,7 @@ block content
       #activity-line.col-md-10
       #activity-box.col-md-2
       
-  #linetip.linetip
+    #linetip.linetip
   
   script(src='/socket.io/socket.io.js')
   != js('d3.ranking')

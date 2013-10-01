@@ -53,6 +53,7 @@ end
 
 while true
   post_rankings
-  sleep 3
+  t = ARGF.argv[0].to_i
+  sleep t.is_a?(Integer) && t > 0 ? t : 3
 end
   

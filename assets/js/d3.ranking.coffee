@@ -13,6 +13,7 @@ label_h      = 25
 label_w      = 140
 box_w        = 300
 box_h        = 500
+tip_offset   = { x: 0, y: 50 }
 
 width  = graph_w - margin.left - margin.right
 height = graph_h - margin.top  - margin.bottom
@@ -95,13 +96,13 @@ bindData = (data) ->
     data = @__data__
     mouse_x = d3.mouse(this)[0]
     mouse_y = d3.mouse(this)[1]
-    $("#linetip").attr(style: "display: block; background: " + color(data.name) + "; top: " + (mouse_y + 30) + "px; left: " + (mouse_x + 0) + "px;").text(data.name)
+    $("#linetip").attr(style: "display: block; background: " + color(data.name) + "; top: " + (mouse_y + tip_offset.y) + "px; left: " + (mouse_x) + "px;").text(data.name)
 
   tagData.on "mouseout", ->
     data = @__data__
     mouse_x = d3.mouse(this)[0]
     mouse_y = d3.mouse(this)[1]
-    $("#linetip").attr style: "display: none; top: " + (mouse_y + 30) + "px; left: " + mouse_x + "px;"
+    $("#linetip").attr style: "display: none; top: " + (mouse_y + tip_offset.y) + "px; left: " + mouse_x + "px;"
   
   labelData = svgbox.selectAll(".label").data(data, (d) -> d.name)
   labelEnter = labelData.enter().append("g").attr("class", "label")

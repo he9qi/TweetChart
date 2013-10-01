@@ -5,12 +5,13 @@ html
     meta(content='initial-scale = 1, user-scalable = no', name='viewport')
     
     // Bootstrap
-    != css('vendor/bootstrap.min')
-    != css('vendor/bootstrap-theme.min')
-    != css('vendor/font-awesome.min')
-    != css('vendor/animate.min')
+    link(rel="stylesheet" href="css/bootstrap.min.css")
+    link(rel="stylesheet" href="css/bootstrap-theme.min.css")
+    link(rel="stylesheet" href="css/font-awesome.min.css")
+    link(rel="stylesheet" href="css/animate.min.css")
     != css('style')
     
+    //- stitch to use server model in client side
     script(src='/application.js', type='text/javascript', charset='utf-8')
     != js('application')
     

@@ -3,10 +3,17 @@
   * `bundle` to install required gems
   * `bundle exec guard` to watch coffeescript
   * `npm install` to install required modules
-  * `npm start` or `node app` to start the server
+  * `./bin/devserver` to start the server
 
-## Run rankings post request
+## Run server
 
-  `ruby post_ranking.rb` or `node app -m`
+  `./bin/devserver`
 
+## Run in mock mode
+
+  `./bin/devserver app -m`
+
+## Run tests
+
+  `./bin/test` or auto test `./bin/test -auto`
     

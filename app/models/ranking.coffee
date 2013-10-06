@@ -4,10 +4,10 @@ class Ranking
   constructor: (_maxTagsCount) ->
     @tags = []
     @maxTagsCount = if _maxTagsCount is undefined then 500 else _maxTagsCount
-    
-  addRanking: (time, ranking, tags, callback) ->
-    name  = ranking[0]
-    value = ranking[1]
+      
+  addRank: (time, rank, tags, callback) ->
+    name  = rank.name
+    value = rank.count
 
     tag = _.find tags, (tag) ->
       name is tag.name
@@ -21,26 +21,26 @@ class Ranking
       values.push { time, value }
       tags.push { "name":name, "values":values }
       callback true
-
-  addData: (data, callback) ->
+      
+  addRankData: (data, callback) ->
     timestamp = new Date(data.timestamp)
-    rankings  = data.rankings
-
-    dirty = false
+    ranks     = data.ranks
     
+    dirty = false
+
     # sort before pushing
     _.each @tags, (t) ->
       t.values = _.sortBy t.values, (v) -> v.time.getTime()
 
-    _.each rankings, (ranking) =>
-      @addRanking timestamp, ranking, @tags, (_dirty) ->
+    _.each ranks, (rank) =>
+      @addRank timestamp, rank, @tags, (_dirty) ->
         dirty = dirty | _dirty
 
     # remove data whose name that is not included on current time
-    names = _.map rankings, (ranking) -> ranking[0]
+    names = _.map ranks, (rank) ->  rank.name
     @tags  = _.filter @tags, (d) -> d.name in names
-
-    ranking = { "tags":@tags, "timestamp":timestamp, "dirty":dirty }
-    callback(ranking)
+    
+    rank = { "tags":@tags, "timestamp":timestamp, "dirty":dirty }
+    callback(rank)
 
 module.exports = Ranking

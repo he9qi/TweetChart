@@ -3,14 +3,8 @@ _     = require 'underscore'
 
 class RankStream
   
-  # { 
-  #   timestamp : 2323221, 
-  #   rankings : 
-  #     [ [ "word", 12 ] ] 
-  # }
   constructor: (attributes) ->
     @[key] = value for key,value of attributes
-  
     
   # time is the unique key
   save: (callback) ->  

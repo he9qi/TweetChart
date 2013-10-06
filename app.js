@@ -4,7 +4,7 @@ Module dependencies.
 
 
 (function() {
-  var app, config, express, http, mock, mock_rankings_request, packages, path, server, stitch;
+  var app, config, express, http, packages, path, server, stitch;
 
   require("coffee-script");
 
@@ -70,20 +70,5 @@ Module dependencies.
   require("./app/routes")(app);
 
   app.use(app.router);
-
-  mock_rankings_request = function() {
-    return mock.post_rankings(app, function(error, data) {
-      if (error) {
-        return console.log(error);
-      }
-      return setTimeout(mock_rankings_request, 2000);
-    });
-  };
-
-  if (config.mock) {
-    console.log("======== mock rankings mode =========\n");
-    mock = require('./config/mock.coffee');
-    mock_rankings_request();
-  }
 
 }).call(this);

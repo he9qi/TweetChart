@@ -1,6 +1,12 @@
 @import 'base';
 @import 'ranking';
 
+h3 { text-align: center; } 
+h2 { text-align: center; }
+hr { margin: 5px 0 10px 0; }
+ul { list-style-type: none; }
+
+
 /* content style */
 body {
   font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -12,7 +18,45 @@ body {
       
   .container{
     width: 1000px;
-    &.ranking-chart{
+    
+    .module-container {
+      text-align: center;
+      h1.account-reached-count {
+        font-size: 80px;
+        margin: 80px 0 25px 0; } }  
+
+    p.impressions-count {
+      font-size: 30px;
+      font-weight: bold;
+      small {
+        font-size: 12px;
+        font-weight: normal; } }
+    
+    h2.text-title-big {
+      font-size: 40px;
+      font-family: "Palatino";
+      color: #339966; }
+
+    h3.keyword  {
+      font-family: "Palatino";
+      font-weight: bold;
+      font-size: 36px;
+      color: #ba4d51; }
+      
+    .text-number {
+      font-family: "American Typewriter";
+      font-weight: bold;
+      color: #006699;
+      small {
+        font-family: "Arial";
+        font-weight: normal;
+        color: #bbb; } }
+
+    .text-title {
+      font-size: 20px;
+      font-family: "American Typewriter"; }
+    
+    &.ranking-chart, &#activity-line{
       position: relative;
     }
     .search-form {

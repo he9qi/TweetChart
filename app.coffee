@@ -49,14 +49,3 @@ server.listen app.get("port"), ->
 # routes
 require("./app/routes") app
 app.use app.router
-  
-# mock data
-mock_rankings_request = () ->
-  mock.post_rankings app, (error, data) ->
-    if error then return console.log error
-    setTimeout mock_rankings_request, 2000  
-  
-if config.mock
-  console.log "======== mock rankings mode =========\n"
-  mock    = require './config/mock.coffee'
-  mock_rankings_request()

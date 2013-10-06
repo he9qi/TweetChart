@@ -1,4 +1,9 @@
-RankStream  = require __dirname + '/models/rank_stream'
+RankStream    = require __dirname + '/models/rank_stream'
+RankBase      = require __dirname + '/models/rank_base'
+
+mock          = require '../config/mock.coffee'
+config        = require('../config/options.coffee').parse(process.argv)
+client        = if config.mock then mock else RankBase
 
 # GET home page.
 routes = (app) ->
@@ -27,5 +32,15 @@ routes = (app) ->
     if socketIO = app.settings.socketIO
       socketIO.sockets.emit "rankings:post", req.body
     res.send "OK"
+    
+  app.get '/trends/:id', (req, res) ->
+    res.render 'trends/show', { id : req.params.id }
+    
+  app.get '/ranks', (req, res) ->
+    if req.query.step is undefined || req.query.interval is undefined || req.query.timestamp is undefined
+      res.json([])
+    else
+      client.lastAllByTime parseInt(req.query.timestamp), parseInt(req.query.interval), parseInt(req.query.step), (error, _data) ->
+        res.json _data
     
 module.exports = routes

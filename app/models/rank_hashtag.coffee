@@ -16,12 +16,11 @@ RankBase  = require './rank_base'
 # }
 class RankHashtag extends RankBase
 
-    # table key name  
-    @key: ->
-      "ds:tweets:rc_hashtags:#{process.env.NODE_ENV}"
+  # table key name  
+  @key: ->
+    "ds:tweets:rc_hashtags"
 
-    self = @
-    @lastByTime: (timestamp, interval, step, callback) ->
-      RankBase.lastByTime self, timestamp, interval, step, callback
+  @lastByTime: (timestamp, interval, step, callback) ->
+    RankBase.lastByTime @, timestamp, interval, step, callback
 
-  module.exports = RankHashtag
+module.exports = RankHashtag

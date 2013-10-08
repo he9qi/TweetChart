@@ -1,5 +1,10 @@
 RankStream    = require __dirname + '/models/rank_stream'
 RankBase      = require __dirname + '/models/rank_base'
+RankUser      = require __dirname + '/models/rank_user'
+RankTweet     = require __dirname + '/models/rank_tweet'
+RankHashtag   = require __dirname + '/models/rank_hashtag'
+RankExposure  = require __dirname + '/models/rank_exposure'
+RankLocation  = require __dirname + '/models/rank_location'
 
 mock          = require '../config/mock.coffee'
 config        = require('../config/options.coffee').parse(process.argv)
@@ -40,7 +45,7 @@ routes = (app) ->
     if req.query.step is undefined || req.query.interval is undefined || req.query.timestamp is undefined
       res.json([])
     else
-      client.lastAllByTime parseInt(req.query.timestamp), parseInt(req.query.interval), parseInt(req.query.step), (error, _data) ->
+      client.lastAllByTime [RankUser, RankHashtag, RankTweet, RankLocation, RankExposure], parseInt(req.query.timestamp), parseInt(req.query.interval), parseInt(req.query.step), (error, _data) ->
         res.json _data
     
 module.exports = routes

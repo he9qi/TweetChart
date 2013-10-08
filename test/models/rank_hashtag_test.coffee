@@ -24,7 +24,7 @@ describe 'Rank Hashtags', ->
   data3 = { "category" : "stock/finacial", "ranks" : [ {"name":"beijing", "count":2},     {"name":"beijing", "count":6} ] }
 
   it "builds a key", ->
-    assert.equal RankHashtag.key(), 'ds:tweets:rc_hashtags:test'
+    assert.equal RankHashtag.key(), 'ds:tweets:rc_hashtags'
     
   describe "assign new", ->
     rankHashtag = null

@@ -3,44 +3,69 @@ extends ../layouts/application
 block content
   .container
     
-    h2.text-title-big Tweet Report
-    h3.keyword Stock/Finacial
+    //- h2.text-title-big Tweet Report Stock/Finacial
+    h3.keyword Big Data Social Media Report
     
     .row
-      .col-md-7
-        span.text-success.text-title reach
-        i.icon-exclamation-sign
-        hr.module-separator
-        .module-container
-          h1.account-reached-count.text-number 291,323
-          p.muted account reached
-      .col-md-5
+      .col-md-6
         span.text-success.text-title exposure
         i.icon-exclamation-sign
         hr.module-separator
         .module-container
-        p.impressions-count.text-number 3,181,2372 
-          small impressions
-        #exposure-chart
-        
-    .row
-      .col-md-12.activity
-        span.text-success.text-title activity
+          div#exposure-text 
+          p.text-muted exposure
+      .col-md-6
+        span.text-success.text-title all top hashtags
         i.icon-exclamation-sign
         hr.module-separator
-        .col-md-7
-          span.col-md-3.activity-tweets.text-number
-            | 927
-            small  tweets
-          span.col-md-3.activity-contributors.text-number
-            | 358
-            small  contributors
-          span.col-md-2.activity-days.text-number
-            | 8
-            small  days
-          #activity-line
-            #linetip.linetip
-        .col-md-5
-          #activity-pie
+        .module-container
+          //- p.impressions-count.text-number 3,181,2372 
+          //-   small impressions
+          #exposure-chart
+        
+    //- .row
+    //-   .col-md-12.activity
+    //-     span.text-success.text-title activity
+    //-     i.icon-exclamation-sign
+    //-     hr.module-separator
+    //-     .col-md-7
+    //-       span.col-md-3.activity-tweets.text-number
+    //-         | 927
+    //-         small  tweets
+    //-       span.col-md-3.activity-contributors.text-number
+    //-         | 358
+    //-         small  contributors
+    //-       span.col-md-2.activity-days.text-number
+    //-         | 8
+    //-         small  days
+    //-       #activity-line
+    //-         #linetip.linetip
+    //-     .col-md-5
+    //-       #activity-label
+          
+    .row
+      .col-md-4.tweets
+        span.text-success.text-title top contributors
+        i.icon-exclamation-sign
+        hr.module-separator
+        .module-container
+          #top-users-chart
+      .col-md-5.tweets
+        span.text-success.text-title top tweets
+        i.icon-exclamation-sign
+        hr.module-separator
+        .module-container
+          #top-tweets-chart
+      .col-md-3.tweets
+        span.text-success.text-title top locations [rank]
+        i.icon-exclamation-sign
+        hr.module-separator
+        .module-container
+          #locations-label
+        span.text-success.text-title top locations [pie]
+        i.icon-exclamation-sign
+        hr.module-separator
+        .module-container
+          #locations-pie
   
   != js('d3.trend')

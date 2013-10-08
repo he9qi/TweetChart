@@ -50,7 +50,7 @@ class RankStream
   
   # table key name  
   @key: ->
-    "RankStream:#{process.env.NODE_ENV}"
+    "RankStream"
     
   # destroy all the data        
   @destroyAll: ->

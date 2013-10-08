@@ -1,6 +1,7 @@
 redis     = require('redis').createClient()
 _         = require 'underscore'
 RankBase  = require './rank_base'
+User      = require './user'
 
 # "ds:tweets:rank:users"
 # 2013913131313 :
@@ -16,12 +17,14 @@ RankBase  = require './rank_base'
 # }
 class RankUser extends RankBase
 
+  @modelClass: ->
+    User
+
   # table key name  
   @key: ->
-    "ds:tweets:rank:users:#{process.env.NODE_ENV}"
+    "ds:tweets:top_users"
 
-  self = @
-  @lastByTime: (timestamp, interval, step, callback) ->
-    RankBase.lastByTime self, timestamp, interval, step, callback
+  @lastByTime: (timestamp, interval, step, callback) =>
+    RankBase.lastByTime @, timestamp, interval, step, callback
 
 module.exports = RankUser

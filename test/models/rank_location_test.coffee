@@ -24,7 +24,7 @@ describe 'Rank Locations', ->
   data3 = { "category" : "stock/finacial", "ranks" : [ {"name":"beijing", "count":2},     {"name":"beijing", "count":6} ] }
 
   it "builds a key", ->
-    assert.equal RankLocation.key(), 'ds:tweets:top_locations:test'
+    assert.equal RankLocation.key(), 'ds:tweets:top_locations'
     
   describe "assign new", ->
     rankLocation = null

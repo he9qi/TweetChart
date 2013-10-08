@@ -24,7 +24,7 @@ describe 'Rank User', ->
   data3 = { "category" : "stock/finacial", "ranks" : [ {"id":"u789", "name":"jkl", "count":2}, {"id":"u123", "name":"abc", "count":6} ] }
 
   it "builds a key", ->
-    assert.equal RankUser.key(), 'ds:tweets:rank:users:test'
+    assert.equal RankUser.key(), 'ds:tweets:top_users'
     
   describe "assign new", ->
     rankUser = null

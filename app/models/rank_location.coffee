@@ -18,10 +18,9 @@ class RankLocation extends RankBase
   
     # table key name  
     @key: ->
-      "ds:tweets:top_locations:#{process.env.NODE_ENV}"
+      "ds:tweets:top_locations"
       
-    self = @
     @lastByTime: (timestamp, interval, step, callback) ->
-      RankBase.lastByTime self, timestamp, interval, step, callback
+      RankBase.lastByTime @, timestamp, interval, step, callback
 
   module.exports = RankLocation  

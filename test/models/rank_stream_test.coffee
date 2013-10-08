@@ -10,7 +10,7 @@ describe 'Rank Stream', ->
   data3 = { "timestamp" : 2002, "rankings" : [ ["#word2", 11], ["#word3", 12] ] }
 
   it "builds a key", ->
-    assert.equal RankStream.key(), 'RankStream:test'
+    assert.equal RankStream.key(), 'RankStream'
   
   describe "create", ->
     

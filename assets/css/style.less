@@ -5,11 +5,11 @@ h3 { text-align: center; }
 h2 { text-align: center; }
 hr { margin: 5px 0 10px 0; }
 ul { list-style-type: none; }
+font{ font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
 
 
 /* content style */
 body {
-  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
   i[class^="icon-"], span[class^="icon-"] { margin-right: 10px; }
   
   .navbar-inverse{
@@ -18,6 +18,78 @@ body {
       
   .container{
     width: 1000px;
+    
+    .user-info-box{
+      .user-info-row{
+        width: 300px;
+        margin: 0px;
+        padding: 0px;
+        .user-icon{
+          padding: 0;
+          .user-number{
+            text-align: center;
+          }
+        }
+        .user-stats{
+          padding: 0;
+          display: block;
+          
+/*          border-top: 1px solid #e8e8e8;*/
+          border-bottom: 1px solid #e8e8e8;
+          
+          .user-stats-name{
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          .user-stats-count{
+            
+            float: left;
+            padding: 7px 12px;
+            color: #999;
+            font-size: 10px;
+            line-height: 16px;
+            text-transform: uppercase;
+            //border-left: 1px solid #e8e8e8;
+            .count-text{
+              
+            }
+            .count-number{
+            }
+          }
+        }
+      }
+    }
+    
+    #exposure-text{
+      .svg-number{
+        text-align: center;
+        .exposure-number{
+          font-size: 7em; } } }
+    
+    .label{
+      font-size: 100%;
+      font-weight: normal;
+      .label-box{
+        
+      }
+      .tweet-text{        
+        margin: 10px 0;
+        font-size: 1.2em;
+        text-align: left;
+        textarea{
+          resize: none; 
+          border: 0px; 
+          font-size: 0.7em;
+          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+          background-color: transparent;
+        }
+      }
+      .tweet-number{
+        margin: 10px 0;
+        font-size: 1.8em;
+        text-align: center;
+      }
+    }
     
     .module-container {
       text-align: center;

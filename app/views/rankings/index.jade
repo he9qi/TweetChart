@@ -3,14 +3,17 @@ extends ../layouts/application
 block content
   
   .container.ranking-chart
-    h3.title
-      i.icon-bar-chart.icon-2x
-      = title
+    h3.keyword Big Data Social Hashtag Activity 
     .row
-      #activity-line.col-md-10
-      #activity-box.col-md-2
-      
-    #linetip.linetip
+      .col-md-12.activity
+        span.text-success.text-title activity
+        i.icon-exclamation-sign
+        hr.module-separator
+        .col-md-10
+          #activity-line
+            #linetip.linetip
+        .col-md-2
+          #activity-box
   
   script(src='/socket.io/socket.io.js')
   != js('d3.ranking')

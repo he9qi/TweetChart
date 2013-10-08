@@ -23,7 +23,7 @@ class Ranking
       callback true
       
   addRankData: (data, callback) ->
-    timestamp = new Date(data.timestamp)
+    timestamp = new Date(data.timestamp*1000)
     ranks     = data.ranks
     
     dirty = false

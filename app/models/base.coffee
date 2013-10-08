@@ -12,7 +12,7 @@ class Base
   @getById: (id, callback) ->
     redis.hget @key(), id, (err, json) =>
       if json is null
-        callback new Error("#{@.name} '#{id}' could not be found.")
+        callback new Error("#{@name} '#{id}' could not be found.")
       else
         callback null, new @ JSON.parse(json)
         

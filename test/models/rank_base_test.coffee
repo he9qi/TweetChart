@@ -30,11 +30,11 @@ describe 'Rank Base', ->
   edata3 = { "value" : 12347 }
       
   before (done) ->
-    redis.hmset RankUser.key(), 1380781500000, JSON.stringify(data1), 1380781501000, JSON.stringify(data2), 1380781502000, JSON.stringify(data3)
-    redis.hmset RankHashtag.key(), 1380781500000, JSON.stringify(hdata1), 1380781501000, JSON.stringify(hdata2), 1380781502000, JSON.stringify(hdata3)
-    redis.hmset RankLocation.key(), 1380781500000, JSON.stringify(ldata1), 1380781501000, JSON.stringify(ldata2), 1380781502000, JSON.stringify(ldata3)
-    redis.hmset RankTweet.key(), 1380781500000, JSON.stringify(tdata1), 1380781501000, JSON.stringify(tdata2), 1380781502000, JSON.stringify(tdata3)
-    redis.hmset RankExposure.key(), 1380781500000, JSON.stringify(edata1), 1380781501000, JSON.stringify(edata2), 1380781502000, JSON.stringify(edata3)
+    redis.hmset RankUser.key(), 1380781500, JSON.stringify(data1), 1380781501, JSON.stringify(data2), 1380781502, JSON.stringify(data3)
+    redis.hmset RankHashtag.key(), 1380781500, JSON.stringify(hdata1), 1380781501, JSON.stringify(hdata2), 1380781502, JSON.stringify(hdata3)
+    redis.hmset RankLocation.key(), 1380781500, JSON.stringify(ldata1), 1380781501, JSON.stringify(ldata2), 1380781502, JSON.stringify(ldata3)
+    redis.hmset RankTweet.key(), 1380781500, JSON.stringify(tdata1), 1380781501, JSON.stringify(tdata2), 1380781502, JSON.stringify(tdata3)
+    redis.hmset RankExposure.key(), 1380781500, JSON.stringify(edata1), 1380781501, JSON.stringify(edata2), 1380781502, JSON.stringify(edata3)
     done()
     
   after ->
@@ -50,11 +50,11 @@ describe 'Rank Base', ->
     rankUser = null
     
     it "get each second for last 2 seconds", (done) ->
-       RankBase.lastByTime RankUser, 1380781502000, 2000, 1000, (err, _rus) ->
+       RankBase.lastByTime RankUser, 1380781502, 2, 1, (err, _rus) ->
          rus = _rus
          assert.equal rus.length, 2
-         assert.equal rus[0].timestamp, 1380781501000
-         assert.equal rus[1].timestamp, 1380781502000
+         assert.equal rus[0].timestamp, 1380781501
+         assert.equal rus[1].timestamp, 1380781502
          done()
          
         
@@ -63,7 +63,7 @@ describe 'Rank Base', ->
     data = null
     
     before (done) ->
-      RankBase.lastAllByTime [RankUser, RankHashtag, RankTweet, RankLocation, RankExposure], 1380781502000, 2000, 1000, (err, _data) ->
+      RankBase.lastAllByTime [RankUser, RankHashtag, RankTweet, RankLocation, RankExposure], 1380781502, 2, 1, (err, _data) ->
         data = _data
         done()
       

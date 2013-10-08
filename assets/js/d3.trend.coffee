@@ -35,7 +35,7 @@ locationLabelRank = new @app.LabelRank locationLabelRankAttr
 
 display = (time, intv, step, callback) ->
   
-  $.get "/ranks?step=#{step}&timestamp=#{time.getTime()}&interval=#{intv}", (_data) ->
+  $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)}&interval=#{intv}", (_data) ->
     
     userData = _data['user']
     lastUserData = userData[userData.length-1]
@@ -93,11 +93,11 @@ display = (time, intv, step, callback) ->
     callback() unless callback is undefined
   
 pull_history = () ->
-  display new Date(), 1000 * 60 * 3, 1000, ->
+  display new Date(), 60 * 3, 1, ->
     pull_ranks()
 
 pull_ranks = () ->
-  display(new Date(), 1000, 1000)
+  display(new Date(), 1, 1)
   setTimeout pull_ranks, 3000
   
 pull_history()

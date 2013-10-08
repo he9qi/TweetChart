@@ -36,7 +36,7 @@ describe 'Rank Tweets', ->
   describe "assign new", ->
     rankTweet = null
     before (done) ->
-      data1['timestamp'] = 1380781500000
+      data1['timestamp'] = 1380781500
       rankTweet = new RankTweet data1
       done()
     it "sets ranks", ->
@@ -47,7 +47,7 @@ describe 'Rank Tweets', ->
     it "sets category", ->
       assert.equal rankTweet.category, "stock/finacial"
     it "sets timestamp", ->
-      assert.equal rankTweet.timestamp, 1380781500000
+      assert.equal rankTweet.timestamp, 1380781500
     
   describe "get rank tweets", ->
     
@@ -57,8 +57,8 @@ describe 'Rank Tweets', ->
       statusString = fs.readFileSync path.resolve(__dirname, '../sample/status.json'), { encoding: 'UTF-8', autoClose: true }
       statusJson = JSON.parse statusString
       redis.hset Status.key(), statusJson.id, JSON.stringify(statusJson)
-      redis.hmset RankTweet.key(), 1380781500000, JSON.stringify(data1), 1380781501000, JSON.stringify(data2), 1380781502000, JSON.stringify(data3)
-      RankTweet.lastByTime 1380781502000, 2000, 1000, (err, _rls) ->
+      redis.hmset RankTweet.key(), 1380781500, JSON.stringify(data1), 1380781501, JSON.stringify(data2), 1380781502, JSON.stringify(data3)
+      RankTweet.lastByTime 1380781502, 2, 1, (err, _rls) ->
         rls = _rls
         done()
       
@@ -67,8 +67,8 @@ describe 'Rank Tweets', ->
     
     it "sets rank tweets and timestamps", ->
       assert.equal rls.length, 2
-      assert.equal rls[0].timestamp, 1380781501000
-      assert.equal rls[1].timestamp, 1380781502000
+      assert.equal rls[0].timestamp, 1380781501
+      assert.equal rls[1].timestamp, 1380781502
     
     it "sets rank tweets ranks", ->
       assert.equal rls[0].ranks.length, 2

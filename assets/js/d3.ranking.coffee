@@ -12,11 +12,9 @@ lineChart = new @app.LineChart lineAttr
 labelAttr = {"dom":"#activity-box", "width": 250, "height": 400, "labelWidth": 120, "labelHeight":25, "duration":500}
 labelRank = new @app.LabelRank labelAttr
 
-pull_history = () ->
-  r_time  = new Date()
-  r_step  = 1000
-  r_intv  = 1000 * 60 * 3
-  $.get "/ranks?step=#{r_step}&timestamp=#{r_time.getTime()}&interval=#{r_intv}", (data) ->
+display = (time, intv, step, callback) ->
+  
+  $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)}&interval=#{intv}", (data) ->
     hashtags      = data['hashtag']
     lastHashtags  = hashtags[hashtags.length-1]
     
@@ -29,29 +27,17 @@ pull_history = () ->
         r_tags = ranking.tags   
          
     lineChart.bindData r_tags 
-    lineChart.redrawAxis r_tags, r_time
+    lineChart.redrawAxis r_tags, time
     lineChart.redraw()
-    
+  
+    callback() unless callback is undefined
+
+pull_history = () ->
+  display new Date(), 60 * 3, 1, ->
     pull_ranks()
 
 pull_ranks = () ->
-  r_time  = new Date()
-  r_step  = 1000
-  r_intv  = 1000
-  $.get "/ranks?step=#{r_step}&timestamp=#{r_time.getTime()}&interval=#{r_intv}", (data) ->
-    hashtags      = data['hashtag']
-    lastHashtags  = hashtags[hashtags.length-1]
-    
-    labelRank.setData lastHashtags.ranks
-    labelRank.redraw()
-    
-    r_tags    = []
-    g_ranking.addRankData lastHashtags, (ranking) ->
-      r_tags = ranking.tags    
-      lineChart.bindData r_tags if ranking.dirty
-      lineChart.redrawAxis r_tags, r_time
-      lineChart.redraw()
-    
-  setTimeout pull_ranks, r_step
+  display new Date(), 1, 1
+  setTimeout pull_ranks, 1000
   
 pull_history()

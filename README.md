@@ -1,4 +1,4 @@
-# TweetChart v0.0.1
+# TweetChart v0.0.1.1
 
   * `bundle` to install required gems
   * `bundle exec guard` to watch coffeescript

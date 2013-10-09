@@ -37,7 +37,7 @@ describe 'Ranking', ->
     describe "once", ->
   
       it "sets timestamp", ->
-        assert.equal data.timestamp.getTime(), 2000  
+        assert.equal data.timestamp.getTime()/1000, 2000  
   
       it "sets tags", ->
         assert.equal data.tags.length, 3
@@ -50,7 +50,7 @@ describe 'Ranking', ->
           data = _data
   
       it "sets timestamp", ->
-        assert.equal data.timestamp.getTime(), 2001
+        assert.equal data.timestamp.getTime()/1000, 2001
   
       it "sets tags", ->
         assert.equal data.tags.length, 3
@@ -73,7 +73,7 @@ describe 'Ranking', ->
         assert.equal data.tags.length, 3
         assert.equal data.tags[0].name, "rooney12"
         assert.equal data.tags[0].values.length, 1
-        assert.equal data.tags[0].values[0].time.getTime(), 2001 # coz only the last timestamp is saved
+        assert.equal data.tags[0].values[0].time.getTime()/1000, 2001 # coz only the last timestamp is saved
   
   describe "sort data", ->
   
@@ -92,4 +92,4 @@ describe 'Ranking', ->
   
     it "set the tags", ->
       assert.equal data.tags[0].name, "rooney12"
-      assert.equal data.tags[0].values[0].time.getTime(), 2000
+      assert.equal data.tags[0].values[0].time.getTime()/1000, 2000

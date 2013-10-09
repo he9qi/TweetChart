@@ -90,5 +90,18 @@ describe 'Rank Base', ->
     it "sets rank info", ->
       rankExposure = data['exposure']
       assert.equal rankExposure[0].value, 12346
+      
+  describe "get ranks with false data", ->
+    
+    before (done) ->
+      redis.hmset RankUser.key(), 1380781500, null
+      done()
+    
+    it "returns error", (done) ->
+      RankBase.lastAllByTime [RankUser], 1380781502, 3, 1, (err, _data) ->
+        data = _data
+        assert.equal data['user'].length, 2
+        done()
+    
     
       

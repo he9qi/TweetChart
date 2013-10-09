@@ -16,10 +16,12 @@ class RankBase
     redis.hmget rank_class.key(), timestamps, (err, objects) ->
       rts = []
       ids = []
-      for key, value of objects
+      
+      for key, value of _.without(objects, null, 'null')
         ru = new rank_class _.extend JSON.parse(value), {"timestamp" : timestamps[key]}
         rts.push ru
         ids.push _.map ru.ranks, (d) -> d.id
+          
       ids = _.uniq (_.flatten ids)   
       
       # put ids to models in the last item

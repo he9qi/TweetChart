@@ -16,19 +16,22 @@ display = (time, intv, step, callback) ->
   
   $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)}&interval=#{intv}", (data) ->
     hashtags      = data['hashtag']
-    lastHashtags  = hashtags[hashtags.length-1]
     
-    labelRank.setData lastHashtags.ranks
-    labelRank.redraw()
+    if hashtags isnt null hashtags isnt undefined and hashtags instanceof Array and hashtags.length > 0
     
-    r_tags    = []
-    _.each hashtags, (d) ->
-      g_ranking.addRankData d, (ranking) ->
-        r_tags = ranking.tags   
+      lastHashtags  = hashtags[hashtags.length-1]
+    
+      labelRank.setData lastHashtags.ranks
+      labelRank.redraw()
+    
+      r_tags    = []
+      _.each hashtags, (d) ->
+        g_ranking.addRankData d, (ranking) ->
+          r_tags = ranking.tags   
          
-    lineChart.bindData r_tags 
-    lineChart.redrawAxis r_tags, time
-    lineChart.redraw()
+      lineChart.bindData r_tags 
+      lineChart.redrawAxis r_tags, time
+      lineChart.redraw()
   
     callback() unless callback is undefined
 

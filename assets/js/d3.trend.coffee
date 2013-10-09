@@ -33,32 +33,40 @@ exposureText = new @app.NumberText exposureAttr
 locationLabelRankAttr = {"dom":"#locations-label", "width": 250, "height": 220, "labelWidth": 250, "labelHeight":38, "duration":500}
 locationLabelRank = new @app.LabelRank locationLabelRankAttr
 
+getLastData = (data) ->
+  if data isnt null and data isnt undefined and data instanceof Array and data.length > 0
+    lastData = data[data.length-1]
+  else
+    lastData = { "ranks":[], "models":[] }
+  return lastData
+
 display = (time, intv, step, callback) ->
   
   $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)}&interval=#{intv}", (_data) ->
     
     userData = _data['user']
-    lastUserData = userData[userData.length-1]
+    
+    lastUserData = getLastData userData
     userRanks  = lastUserData.ranks
     userSource = lastUserData.models
     
     tweetData   = _data['tweet']
-    lastTweetData = tweetData[tweetData.length-1]
+    lastTweetData = getLastData tweetData
     tweetRanks  = lastTweetData.ranks
     tweetSource = lastTweetData.models
     
     locationData = _data['location']
-    lastLocationData = locationData[locationData.length-1]
+    lastLocationData = getLastData locationData
     locationRanks  = lastLocationData.ranks
     locationSource = lastLocationData.models
     
     hashtagData = _data['hashtag']
-    lastHashtagData = hashtagData[hashtagData.length-1]
+    lastHashtagData = getLastData hashtagData
     hashtagRanks  = lastHashtagData.ranks
     hashtagSource = lastHashtagData.models
     
     exposureData = _data['exposure']
-    lastExposureData = exposureData[exposureData.length-1]
+    lastExposureData = getLastData exposureData
   
     # r_tags    = []
     # _.each userData, (d) ->

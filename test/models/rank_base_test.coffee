@@ -94,14 +94,19 @@ describe 'Rank Base', ->
   describe "get ranks with false data", ->
     
     before (done) ->
-      redis.hmset RankUser.key(), 1380781500, null
+      redis.hmset RankUser.key(), 1380781501, null
       done()
     
-    it "returns error", (done) ->
-      RankBase.lastAllByTime [RankUser], 1380781502, 3, 1, (err, _data) ->
+    it "should omit that item", (done) ->
+      RankBase.lastAllByTime [RankUser], 1380781502, 2, 1, (err, _data) ->
         data = _data
-        assert.equal data['user'].length, 2
+        assert.equal data['user'].length, 1
         done()
-    
+        
+    it "should skip empty array of data", (done) ->
+      RankBase.lastAllByTime [RankUser], 1380781000, 2, 1, (err, _data) ->
+        data = _data
+        assert.equal data['user'].length, 0
+        done()
     
       

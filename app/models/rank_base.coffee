@@ -26,12 +26,13 @@ class RankBase
       
       # put ids to models in the last item
       modelClass = rank_class.modelClass()
-      if modelClass != null
-        modelClass.getByIds ids, (err, _statuses) ->
+      if rts.length > 0 and modelClass != null
+        modelClass.getByIds ids, (err, models) ->
+          
           rts[rts.length-1]['models'] = {}
-          for i, _status of _statuses
-            unless _status['id'] is undefined 
-              rts[rts.length-1].models[_status.id] = _status
+          for i, model of models
+            unless model['id'] is undefined 
+              rts[rts.length-1].models[model.id] = model
           callback err, rts, rank_class
       else
         callback err, rts, rank_class

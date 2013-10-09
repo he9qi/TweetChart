@@ -11,13 +11,13 @@ Ranking = require 'ranking'
 pieAttr  = {"dom":"#locations-pie", "width": 250, "height": 250, "radius":80}
 pieChart = new @app.PieChart pieAttr
 
-tweetsRankAttr = {"dom":"#top-tweets-chart", "width": 387, "height": 800, "labelWidth": 387, "labelHeight":85, "duration":500}
+tweetsRankAttr = {"dom":"#top-tweets-chart", "width": 387, "height": 800, "labelWidth": 387, "labelHeight":85, "duration":250}
 tweetsRank = new @app.TweetsRank tweetsRankAttr
 
-usersRankAttr = {"dom":"#top-users-chart", "width": 300, "height" : 800, "labelWidth": 300, "labelHeight": 85, "duration":500}
+usersRankAttr = {"dom":"#top-users-chart", "width": 300, "height" : 800, "labelWidth": 300, "labelHeight": 85, "duration":250}
 usersRank = new @app.UsersRank usersRankAttr
 
-barAttr = {"dom":"#exposure-chart", "width": 500, "height": 150, "barWidth": 45, "barHeight":120, "duration":500}
+barAttr = {"dom":"#exposure-chart", "width": 500, "height": 150, "barWidth": 45, "barHeight":120, "duration":250}
 barChart = new @app.BarChart barAttr
 
 # g_ranking = new Ranking
@@ -30,7 +30,7 @@ barChart = new @app.BarChart barAttr
 exposureAttr = {"dom":"#exposure-text", "width":350, "height":110}
 exposureText = new @app.NumberText exposureAttr
 
-locationLabelRankAttr = {"dom":"#locations-label", "width": 250, "height": 220, "labelWidth": 250, "labelHeight":38, "duration":500}
+locationLabelRankAttr = {"dom":"#locations-label", "width": 250, "height": 220, "labelWidth": 250, "labelHeight":38, "duration":250}
 locationLabelRank = new @app.LabelRank locationLabelRankAttr
 
 getLastData = (data) ->
@@ -106,6 +106,6 @@ pull_history = () ->
 
 pull_ranks = () ->
   display(new Date(), 1, 1)
-  setTimeout pull_ranks, 1
+  setTimeout pull_ranks, 1000
   
 pull_history()

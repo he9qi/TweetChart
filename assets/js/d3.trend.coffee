@@ -106,6 +106,6 @@ pull_history = () ->
 
 pull_ranks = () ->
   display(new Date(), 1, 1)
-  setTimeout pull_ranks, 3000
+  setTimeout pull_ranks, 1
   
 pull_history()

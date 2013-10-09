@@ -19,9 +19,9 @@ RankUser  = require '../../app/models/rank_user'
 
 describe 'Rank User', ->
   
-  data1 = { "category" : "stock/finacial", "ranks" : [ {"id":"u123", "name":"abc", "count":1}, {"id":"u256", "name":"cde", "count":2} ] }
-  data2 = { "category" : "stock/finacial", "ranks" : [ {"id":"u256", "name":"cde", "count":4}, {"id":"u789", "name":"jkl", "count":3} ] }
-  data3 = { "category" : "stock/finacial", "ranks" : [ {"id":"u789", "name":"jkl", "count":2}, {"id":"u123", "name":"abc", "count":6} ] }
+  data1 = { "category" : "stock/finacial", "ranks" : [ {"name":"u123", "count":1}, {"name":"u256", "count":2} ] }
+  data2 = { "category" : "stock/finacial", "ranks" : [ {"name":"u256", "count":4}, {"name":"u789", "count":3} ] }
+  data3 = { "category" : "stock/finacial", "ranks" : [ {"name":"u789", "count":2}, {"name":"u123", "count":6} ] }
 
   it "builds a key", ->
     assert.equal RankUser.key(), 'ds:tweets:top_users'
@@ -34,8 +34,7 @@ describe 'Rank User', ->
       done()
     it "sets ranks", ->
       assert.equal rankUser.ranks.length, 2
-      assert.equal rankUser.ranks[0].id, "u123"
-      assert.equal rankUser.ranks[0].name, "abc"
+      assert.equal rankUser.ranks[0].name, "u123"
       assert.equal rankUser.ranks[0].count, 1
     it "sets category", ->
       assert.equal rankUser.category, "stock/finacial"

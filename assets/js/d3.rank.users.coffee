@@ -13,7 +13,7 @@ class UsersRank extends @app.LabelRank
     @imageHeight = 48
     
   dataToHtml: (d) ->
-    user = @source[d.id]
+    user = @source[d.name]
     return '<div class="row col-md-12 user-info-row">'\
     + '<div class="user-icon col-md-3"><img src="'  + user.profile_image_url + '" /></div>' \
     + '<div class="user-stats col-md-9">' \

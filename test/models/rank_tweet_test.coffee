@@ -24,11 +24,11 @@ Status   = require '../../app/models/status'
 describe 'Rank Tweets', ->
   
   data1 = { "category" : "stock/finacial", "ranks" : 
-    [ {"id":"abc","content":"JavaScript that provides a lot of ...", "count":1},  {"id":"jkl","content":"Collection functions work on arrays, objects, and array-like objects", "count":3} ] }
+    [ {"name":"abc", "count":1},  {"name":"jkl", "count":3} ] }
   data2 = { "category" : "stock/finacial", "ranks" : 
-    [ {"id":174942523154894850,"content":"Underscore is an open-source component", "count":2}, {"id":"abc","content":"JavaScript that provides a lot of ...", "count":1} ] }
+    [ {"name":174942523154894850,"name":"Underscore is an open-source component", "count":2}, {"name":"abc","count":1} ] }
   data3 = { "category" : "stock/finacial", "ranks" : 
-    [ {"id":"jkl","content":"JavaScript that provides a lot of ...", "count":5},  {"id":174942523154894850,"content":"Underscore is an open-source component", "count":7} ] }
+    [ {"name":"jkl", "count":5},  {"name":174942523154894850, "count":7} ] }
     
   it "builds a key", ->
     assert.equal RankTweet.key(), 'ds:tweets:top_tweets'
@@ -41,8 +41,7 @@ describe 'Rank Tweets', ->
       done()
     it "sets ranks", ->
       assert.equal rankTweet.ranks.length, 2
-      assert.equal rankTweet.ranks[0].id, "abc"
-      assert.equal rankTweet.ranks[0].content, "JavaScript that provides a lot of ..."
+      assert.equal rankTweet.ranks[0].name, "abc"
       assert.equal rankTweet.ranks[0].count, 1
     it "sets category", ->
       assert.equal rankTweet.category, "stock/finacial"

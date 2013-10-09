@@ -30,7 +30,7 @@ class TweetsRank extends @app.LabelRank
                           .attr('x', 90)
                           .attr('height', @labelHeight)
                           .append("xhtml:body").data(@data)
-                          .html (d) => '<div class="tweet-text"><textarea disabled readonly style="width: 287px; height: 85px; padding-top: 0px;">' + d.content + '</textarea></div>'
+                          .html (d) => '<div class="tweet-text"><textarea disabled readonly style="width: 287px; height: 85px; padding-top: 0px;">' + @source[d.name].text + '</textarea></div>'
     
   redrawLabel: -> 
     # @svg.selectAll("rect").style("fill", "white")
@@ -44,7 +44,8 @@ class TweetsRank extends @app.LabelRank
     @svg.selectAll("image").data(@data)
       .attr("width", @labelHeight).attr("height", @imageHeight)
       .attr("x", 20).attr("y", 0)
-      .attr "xlink:href", (d) => @source[d.id].user.profile_image_url
+      .attr "xlink:href", (d) => 
+        @source[d.name].user.profile_image_url
         
 @app = window.app ? {}
 @app.TweetsRank = TweetsRank

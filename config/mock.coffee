@@ -33,37 +33,37 @@ rHashtags = ->
   
 users = ->
   return [
-    {"id":"u1", "name":"he9qi",   "count": semirandom(20, 60) },
-    {"id":"u2", "name":"mjordan", "count": semirandom(70, 30) },
-    {"id":"u3", "name":"kbryant", "count": semirandom(10, 90) },
-    {"id":"u4", "name":"bobama",  "count": semirandom(40, 120)},
-    {"id":"u5", "name":"sakura",  "count": semirandom(50, 100)},
-    {"id":"u6", "name":"watashi", "count": semirandom(70, 90) },
-    {"id":"u7", "name":"hujta",   "count": semirandom(70, 90) },
-    {"id":"u8", "name":"hirocha", "count": semirandom(70, 90) },
-    {"id":"u9", "name":"malasi",  "count": semirandom(70, 90) }
+    {"name":"u1", "count": semirandom(20, 60) },
+    {"name":"u2", "count": semirandom(70, 30) },
+    {"name":"u3", "count": semirandom(10, 90) },
+    {"name":"u4", "count": semirandom(40, 120)},
+    {"name":"u5", "count": semirandom(50, 100)},
+    {"name":"u6", "count": semirandom(70, 90) },
+    {"name":"u7", "count": semirandom(70, 90) },
+    {"name":"u8", "count": semirandom(70, 90) },
+    {"name":"u9", "count": semirandom(70, 90) }
   ] 
 rUsers = ->
   return [
-    {"id":"ur1", "name":"rooney12","count": semirandom(23, 67) },
-    {"id":"ur2", "name":"zorolen", "count": semirandom(13, 56) },
-    {"id":"ur3", "name":"beckham", "count": semirandom(43, 81) }
+    {"name":"ur1", "count": semirandom(23, 67) },
+    {"name":"ur2", "count": semirandom(13, 56) },
+    {"name":"ur3", "count": semirandom(43, 81) }
   ]
   
 tweets = ->
   return [
-    {"id":"174942523154894850", "content":"Array Slicing and Splicing with Ranges", "count": semirandom(23, 59)},
-    {"id":"xxx", "content":"Ranges can also be used to extract slices of arrays. ", "count":semirandom(11, 87)},
-    {"id":"jkl", "content":"CoffeeScript provides the do keyword", "count":semirandom(20, 34)},
-    {"id":"123", "content":"You might have noticed how even though we don't add return", "count":semirandom(34, 84)},
-    {"id":"789", "content":"all statements in the language can be used as expressions.", "count":semirandom(40, 97)},
-    {"id":"456", "content":"Comprehensions should be able to handle most places", "count":semirandom(34, 110)},
-    {"id":"yyy", "content":"Personal tweets by Anderson Cooper. Anchor of @AC360, weeknights at 8p/ET & 10p/ET on @CNN and daytime talk show host of @AndersonLive, airing weekdays.", "count":semirandom(40, 120)}
+    {"name":"174942523154894850", "count": semirandom(23, 59)},
+    {"name":"xxx", "count":semirandom(11, 87)},
+    {"name":"jkl", "count":semirandom(20, 34)},
+    {"name":"123", "count":semirandom(34, 84)},
+    {"name":"789", "count":semirandom(40, 97)},
+    {"name":"456", "count":semirandom(34, 110)},
+    {"name":"yyy", "count":semirandom(40, 120)}
   ]
 rTweets = ->
   return [
-    {"id":"abc", "content":"London bridges falling down", "count": semirandom(42, 112)},
-    {"id":"def", "content":"The accessor variant of the existential operator", "count":semirandom(32, 95)}
+    {"name":"abc", "count": semirandom(42, 112)},
+    {"name":"def", "count":semirandom(32, 95)}
   ]
   
 locations = -> 
@@ -111,14 +111,12 @@ mUsers = ->
   userImages = userHead()
   for _user, index in allUsers
     userJsonNew = (JSON.parse statusString).user
-    userJsonNew.id = _user.id
+    userJsonNew.id = _user.name # name is the id for tops
     userJsonNew.profile_image_url = userImages[ index % userImages.length ]
-    userJsonNew.name = _user.name
-    userJsonNew.screen_name = _user.screen_name
     userJsonNew.followers_count = semirandom(500, 8000)
     userJsonNew.friends_count = semirandom(1400, 7000)
     userJsonNew.statuses_count = semirandom(2400, 10000)
-    hash[_user.id] = userJsonNew
+    hash[userJsonNew.id] = userJsonNew
   return hash
 
 mTweets = ->
@@ -127,10 +125,9 @@ mTweets = ->
   userImages = userHead()
   for _tweet, index in allTweets
     statusJsonNew = JSON.parse statusString 
-    statusJsonNew.id = _tweet.id
-    statusJsonNew.text = _tweet.content
+    statusJsonNew.id = _tweet.name # name is the id for tops
     statusJsonNew.user.profile_image_url = userImages[ index % userImages.length ]
-    hash[_tweet.id] = statusJsonNew
+    hash[statusJsonNew.id] = statusJsonNew
   return hash
     
 randomData = (timestamp, interval, step) ->

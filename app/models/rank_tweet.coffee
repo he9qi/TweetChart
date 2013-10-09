@@ -25,20 +25,6 @@ class RankTweet extends RankBase
     "ds:tweets:top_tweets"
 
   @lastByTime: (timestamp, interval, step, callback) =>
-    RankBase.lastByTime @, timestamp, interval, step, callback#(err, rts, rank_name) ->
-      
-      # # get the ids
-      # ids = []
-      # for key, value of rts
-      #   ids.push _.map value.ranks, (d) -> d.id
-      # ids = _.uniq (_.flatten ids)
-      # 
-      # # put ids to models in the last item
-      # Status.getByIds ids, (err, _statuses) ->
-      #   rts[rts.length-1]['models'] = {}
-      #   for i, _status of _statuses
-      #     unless _status['id'] is undefined 
-      #       rts[rts.length-1].models[_status.id] = _status
-      #   callback err, rts, rank_name
+    RankBase.lastByTime @, timestamp, interval, step, callback
 
 module.exports = RankTweet

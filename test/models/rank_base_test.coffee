@@ -10,18 +10,15 @@ RankExposure   = require '../../app/models/rank_exposure'
 
 describe 'Rank Base', ->
   
-  data1 = { "category" : "stock/finacial", "ranks" : [ {"id":"u123", "name":"abc", "count":1}, {"id":"u256", "name":"cde", "count":2} ] }
-  data2 = { "category" : "stock/finacial", "ranks" : [ {"id":"u256", "name":"cde", "count":4}, {"id":"u789", "name":"jkl", "count":3} ] }
-  data3 = { "category" : "stock/finacial", "ranks" : [ {"id":"u789", "name":"jkl", "count":2}, {"id":"u123", "name":"abc", "count":6} ] }
+  data1 = { "category" : "stock/finacial", "ranks" : [ {"name":"u123", "count":1}, {"name":"u256", "count":2} ] }
+  data2 = { "category" : "stock/finacial", "ranks" : [ {"name":"u256", "count":4}, {"name":"u789", "count":3} ] }
+  data3 = { "category" : "stock/finacial", "ranks" : [ {"name":"u789", "count":2}, {"name":"u123", "count":6} ] }
   ldata1 = { "category" : "stock/finacial", "ranks" : [ {"name":"chengdu", "count":1},     {"name":"los angeles", "count":2} ] }
   ldata2 = { "category" : "stock/finacial", "ranks" : [ {"name":"los angeles", "count":4}, {"name":"chengdu", "count":3} ] }
   ldata3 = { "category" : "stock/finacial", "ranks" : [ {"name":"beijing", "count":2},     {"name":"beijing", "count":6} ] }
-  tdata1 = { "category" : "stock/finacial", "ranks" : 
-    [ {"id":174942523154894850,"content":"JavaScript that provides a lot of ...", "count":1},  {"id":"jkl","content":"Collection functions work on arrays, objects, and array-like objects", "count":3} ] }
-  tdata2 = { "category" : "stock/finacial", "ranks" : 
-    [ {"id":"cde","content":"Underscore is an open-source component", "count":2}, {"id":174942523154894850,"content":"JavaScript that provides a lot of ...", "count":1} ] }
-  tdata3 = { "category" : "stock/finacial", "ranks" : 
-    [ {"id":174942523154894850,"content":"JavaScript that provides a lot of ...", "count":5},  {"id":"cde","content":"Underscore is an open-source component", "count":7} ] }
+  tdata1 = { "category" : "stock/finacial", "ranks" : [ {"name":174942523154894850, "count":1},  {"name":"jkl", "count":3} ] }
+  tdata2 = { "category" : "stock/finacial", "ranks" : [ {"name":"cde", "count":2},  {"name":174942523154894850, "count":1} ] }
+  tdata3 = { "category" : "stock/finacial", "ranks" : [ {"name":174942523154894850, "count":5},  {"name":"cde", "count":7} ] }
   hdata1 = { "category" : "stock/finacial", "ranks" : [ {"name":"chengdu", "count":1},     {"name":"los angeles", "count":2} ] }
   hdata2 = { "category" : "stock/finacial", "ranks" : [ {"name":"los angeles", "count":4}, {"name":"chengdu", "count":3} ] }
   hdata3 = { "category" : "stock/finacial", "ranks" : [ {"name":"beijing", "count":2},     {"name":"beijing", "count":6} ] }

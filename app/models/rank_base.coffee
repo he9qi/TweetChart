@@ -20,7 +20,7 @@ class RankBase
       for key, value of _.without(objects, null, 'null')
         ru = new rank_class _.extend JSON.parse(value), {"timestamp" : timestamps[key]}
         rts.push ru
-        ids.push _.map ru.ranks, (d) -> d.id
+        ids.push _.map ru.ranks, (d) -> d.name # name is the ids for tops
           
       ids = _.uniq (_.flatten ids)   
       

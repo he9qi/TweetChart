@@ -79,24 +79,28 @@ display = (time, intv, step, callback) ->
 
     # labelRank.setData userRanks
     # labelRank.redraw()
-  
-    pieChart.setData locationRanks
-    pieChart.redraw()
-  
-    barChart.setData hashtagRanks
-    barChart.redraw()
-  
-    locationLabelRank.setData locationRanks
-    locationLabelRank.redraw()
     
-    tweetsRank.setDataAndSource tweetRanks, tweetSource
-    tweetsRank.redraw()
+    if locationRanks.length > 0
+      pieChart.setData locationRanks
+      pieChart.redraw()
+      locationLabelRank.setData locationRanks
+      locationLabelRank.redraw()
+      
+    if hashtagRanks.length > 0
+      barChart.setData hashtagRanks
+      barChart.redraw()
     
-    usersRank.setDataAndSource userRanks, userSource
-    usersRank.redraw()
+    if tweetRanks.length > 0
+      tweetsRank.setDataAndSource tweetRanks, tweetSource
+      tweetsRank.redraw()
     
-    exposureText.setData lastExposureData
-    exposureText.redraw()
+    if userRanks.length > 0
+      usersRank.setDataAndSource userRanks, userSource
+      usersRank.redraw()
+    
+    if lastExposureData isnt null and lastExposureData.value isnt undefined
+      exposureText.setData lastExposureData
+      exposureText.redraw()
     
     callback() unless callback is undefined
   
@@ -108,4 +112,4 @@ pull_ranks = () ->
   display(new Date(), 1, 1)
   setTimeout pull_ranks, 1000
   
-pull_history()
+pull_ranks() # no need to query history in this page

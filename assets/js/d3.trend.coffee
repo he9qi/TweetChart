@@ -105,12 +105,12 @@ display = (time, intv, step, callback) ->
     callback() unless callback is undefined
 
 pull_history = () ->
-  display new Date(), 60 * 3, 1, ->
+  display new Date(), 60 * 2, 1, ->
     pull_ranks()
 
 pull_ranks = () ->
-  display(new Date(), 5, 1)
-  setTimeout pull_ranks, 5000
+  display(new Date(), 2, 1)
+  setTimeout pull_ranks, 2000
 
 pull_history()
 # pull_ranks() # no need to query history in this page

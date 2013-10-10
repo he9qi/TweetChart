@@ -3,7 +3,7 @@
 
 _       = require 'underscore'
 Ranking = require 'ranking'
-  
+
 g_ranking    = new Ranking
 
 lineAttr  = {"dom":"#activity-line", "width": 800, "height": 400, "time_frame": 1000 * 60 * 5, "tip_dom": "#linetip"}
@@ -13,26 +13,26 @@ labelAttr = {"dom":"#activity-box", "width": 250, "height": 400, "labelWidth": 1
 labelRank = new @app.LabelRank labelAttr
 
 display = (time, intv, step, callback) ->
-  
-  $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)}&interval=#{intv}", (data) ->
+
+  $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)-5}&interval=#{intv}", (data) ->
     hashtags      = data['hashtag']
-    
+
     if hashtags isnt null and hashtags isnt undefined and hashtags instanceof Array and hashtags.length > 0
-    
+
       lastHashtags  = hashtags[hashtags.length-1]
-  
+
       labelRank.setData lastHashtags.ranks
       labelRank.redraw()
-  
+
       r_tags    = []
       _.each hashtags, (d) ->
         g_ranking.addRankData d, (ranking) ->
-          r_tags = ranking.tags   
-       
-      lineChart.bindData r_tags 
+          r_tags = ranking.tags
+
+      lineChart.bindData r_tags
       lineChart.redrawAxis r_tags, time
       lineChart.redraw()
-  
+
     callback() unless callback is undefined
 
 pull_history = () ->
@@ -42,5 +42,5 @@ pull_history = () ->
 pull_ranks = () ->
   display new Date(), 1, 1
   setTimeout pull_ranks, 1000
-  
+
 pull_history()

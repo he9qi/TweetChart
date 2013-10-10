@@ -24,16 +24,10 @@ class RankBase
 
       ids = _.uniq (_.flatten ids)
 
-      if rank_class.name is 'RankTweet'
-        console.log ids
-
       # put ids to models in the last item
       modelClass = rank_class.modelClass()
       if rts.length > 0 and modelClass != null
         modelClass.getByIds ids, (err, models) ->
-          if rank_class.name is 'RankTweet'
-            console.log models
-
           rts[rts.length-1]['models'] = {}
           for i, model of models
             unless model['id'] is undefined

@@ -125,9 +125,9 @@ mTweets = ->
   userImages = userHead()
   for _tweet, index in allTweets
     statusJsonNew = JSON.parse statusString 
-    statusJsonNew.id = _tweet.name # name is the id for tops
+    statusJsonNew.id_str = _tweet.name # name is the id for tops
     statusJsonNew.user.profile_image_url = userImages[ index % userImages.length ]
-    hash[statusJsonNew.id] = statusJsonNew
+    hash[statusJsonNew.id_str] = statusJsonNew
   return hash
     
 randomData = (timestamp, interval, step) ->

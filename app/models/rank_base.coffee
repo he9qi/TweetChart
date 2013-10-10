@@ -32,7 +32,7 @@ class RankBase
           rts[rts.length-1]['models'] = {}
           for i, model of models
             unless model['id'] is undefined 
-              rts[rts.length-1].models[model.id] = model
+              rts[rts.length-1].models[model.id_str] = model
           callback err, rts, rank_class
       else
         callback err, rts, rank_class

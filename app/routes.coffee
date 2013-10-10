@@ -6,6 +6,8 @@ RankHashtag   = require __dirname + '/models/rank_hashtag'
 RankExposure  = require __dirname + '/models/rank_exposure'
 RankLocation  = require __dirname + '/models/rank_location'
 
+Status  = require __dirname + '/models/status'
+
 mock          = require '../config/mock.coffee'
 config        = require('../config/options.coffee').parse(process.argv)
 client        = if config.mock then mock else RankBase
@@ -17,6 +19,10 @@ routes = (app) ->
     res.header "Access-Control-Allow-Origin", "*"
     res.header "Access-Control-Allow-Headers", "X-Requested-With"
     next()
+    
+  app.get '/statuses/:id', (req, res) ->
+    Status.getById req.params.id, (err, _sta) ->
+      res.json _sta.toJson()
   
   app.get '/', (req, res) ->
     res.render 'index', { title: 'Tweet Trends' } 

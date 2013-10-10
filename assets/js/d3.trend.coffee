@@ -42,7 +42,7 @@ getLastData = (data) ->
 
 display = (time, intv, step, callback) ->
   
-  $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)}&interval=#{intv}", (_data) ->
+  $.get "/ranks?step=#{step}&timestamp=#{Math.round(time.getTime()/1000)-5}&interval=#{intv}", (_data) ->
     
     userData = _data['user']
     
@@ -110,6 +110,6 @@ pull_history = () ->
 
 pull_ranks = () ->
   display(new Date(), 1, 1)
-  setTimeout pull_ranks, 1000
+  setTimeout pull_ranks, 5000
   
 pull_ranks() # no need to query history in this page
